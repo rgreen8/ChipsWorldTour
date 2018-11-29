@@ -1,0 +1,5 @@
+3. 
+
+4. In an effort to do record locking, we hope to have a synced version of the backend that carries
+a flag on each story.  This way if that flag is on, it's state can be edited by the other users until
+the file is refreshed, edits made, and the flag is turned off by the user after editing
