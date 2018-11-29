@@ -1,4 +1,11 @@
-3. 
+3. We intially tried to do this through a server client, without taking advatange of fxml. This 
+allowed us to run a unit test that showed a live server that could respond to messages. This then 
+fitting into our architecture design that where the storybox fucntions as a backend that is locked 
+and synced to all of the screens.  After going over the design document again we wanted to make
+sure that we were incorperating some kind of UI change as well.  I used some online tutorials so 
+that I could get a handle of how to grab information from an FXML screen and broad cast it by setting
+up a main that grabs the fxml document (app) and then a controller that validates the change by
+checking the field, and then sending an update alert in a seperate window
 
 4. In an effort to do record locking, we hope to have a synced version of the backend that carries
 a flag on each story.  This way if that flag is on, it's state can be edited by the other users until
