@@ -6,22 +6,22 @@ public class UserStory {
 
 	public UserStory()
 	{
-	_LOCKED_ = false;
+		_LOCKED_ = false;
 	}
 
 	public boolean isLocked()
 	{
-	return _LOCKED_;
+		return _LOCKED_;
 	}
 
 	public boolean editStory()
 	{
-	if (!this.isLocked())
+		if (!this.isLocked())
 	{
-	// TODO: Send to appropriate "editing handlers"
-	return true;
+			// TODO: Send to appropriate "editing handlers"
+			return true;
 	}
-	else
-	return false;
+		else
+			return false;
 	}
 }

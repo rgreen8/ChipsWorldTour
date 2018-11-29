@@ -12,7 +12,7 @@ class serverTest {
 	@Test
 	void test() throws UnknownHostException, IOException {
 		client CL = new client();
-		CL.startConnection("127.0.0.1", 6666);
+		CL.startConnection("127.0.0.1", 6656);
 	    String response = CL.sendMessage("hello server");
 	    assertEquals("hello client", response);
 	}

@@ -42,7 +42,7 @@ public class server {
     }
     public static void main(String[] args) {
         server serve =new server();
-        serve.start(6666);
+        serve.start(6656);
     }
 }
 
