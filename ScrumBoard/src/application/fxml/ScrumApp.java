@@ -6,12 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-// help from https://www.callicoder.com/javafx-fxml-form-gui-tutorial/
-public class javaTestApp extends Application {
+public class ScrumApp extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("test.fxml"));
-        primaryStage.setTitle("FXML Application");
+        Parent root = FXMLLoader.load(getClass().getResource("ScrumBoard.fxml"));
+        primaryStage.setTitle("Scrum Application");
         primaryStage.setScene(new Scene(root, 800, 500));
         primaryStage.show();
     }
@@ -21,3 +20,4 @@ public class javaTestApp extends Application {
         launch(args);
     }
 }
+

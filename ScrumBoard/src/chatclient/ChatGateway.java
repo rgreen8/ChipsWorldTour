@@ -19,7 +19,7 @@ public class ChatGateway implements chat.ChatConstants {
         this.textArea = textArea;
         try {
             // Create a socket to connect to the server
-            Socket socket = new Socket("localhost", 8000);
+            Socket socket = new Socket("172.20.10.5", 8000);
 
             // Create an output stream to send data to the server
             outputToServer = new PrintWriter(socket.getOutputStream());
