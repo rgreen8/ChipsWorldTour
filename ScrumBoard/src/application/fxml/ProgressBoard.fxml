@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane fx:controller="application.fxml.ProgressBoardController maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.fxml.ProgressBoardController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -27,10 +27,16 @@
       <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="2" />
       <TilePane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
          <children>
-            <Label fx:id="Task1" onDragDetected="#Task1DragDetected" text="Label" />
+            <Label fx:id="Task1" onDragDetected="#Task1DragDetected" onDragDropped="#Task1DragDropped" onDragOver="#Task1DragOver" prefHeight="67.0" prefWidth="110.0" text="TODO" />
          </children>
       </TilePane>
-      <TilePane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <TilePane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+      <TilePane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+            <Label fx:id="Task2" prefHeight="74.0" prefWidth="105.0" />
+         </children></TilePane>
+      <TilePane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+         <children>
+            <Label fx:id="Task3" prefHeight="84.0" prefWidth="115.0" />
+         </children></TilePane>
    </children>
 </GridPane>
