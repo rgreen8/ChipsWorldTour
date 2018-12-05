@@ -26,7 +26,7 @@
       <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1" />
       <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="2" />
       <Label fx:id="Task1" onDragDetected="#Task1DragDetected" onDragDropped="#Task1DragDropped" onDragOver="#Task1DragOver" prefHeight="110.0" prefWidth="178.0" text="To Do" GridPane.rowIndex="1" />
-      <Label fx:id="Task2" prefHeight="127.0" prefWidth="195.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <Label fx:id="Task3" prefHeight="108.0" prefWidth="182.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+      <Label fx:id="Task2" onDragDetected="#Task2DragDetected" onDragDropped="#Task2DragDropped" onDragOver="#Task2DragOver" prefHeight="127.0" prefWidth="195.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <Label fx:id="Task3" onDragDropped="#Task3DragDropped" onDragOver="#Task3DragOver" prefHeight="108.0" prefWidth="182.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
    </children>
 </GridPane>
