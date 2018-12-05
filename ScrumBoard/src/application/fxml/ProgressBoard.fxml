@@ -25,18 +25,8 @@
       <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
       <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1" />
       <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="2" />
-      <TilePane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-         <children>
-            <Label fx:id="Task1" onDragDetected="#Task1DragDetected" onDragDropped="#Task1DragDropped" onDragOver="#Task1DragOver" prefHeight="67.0" prefWidth="110.0" text="TODO" />
-         </children>
-      </TilePane>
-      <TilePane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-         <children>
-            <Label fx:id="Task2" prefHeight="74.0" prefWidth="105.0" />
-         </children></TilePane>
-      <TilePane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-         <children>
-            <Label fx:id="Task3" prefHeight="84.0" prefWidth="115.0" />
-         </children></TilePane>
+      <Label fx:id="Task1" onDragDetected="#Task1DragDetected" onDragDropped="#Task1DragDropped" onDragOver="#Task1DragOver" prefHeight="110.0" prefWidth="178.0" text="To Do" GridPane.rowIndex="1" />
+      <Label fx:id="Task2" prefHeight="127.0" prefWidth="195.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <Label fx:id="Task3" prefHeight="108.0" prefWidth="182.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
    </children>
 </GridPane>
