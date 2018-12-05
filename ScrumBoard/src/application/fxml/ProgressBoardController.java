@@ -47,7 +47,8 @@ public class ProgressBoardController {
             event.acceptTransferModes(TransferMode.MOVE);
         }
 
-        event.consume();	}
+        event.consume();
+    }
 	
 	@FXML
 	protected void Task1DragDropped(DragEvent event) {
@@ -63,6 +64,7 @@ public class ProgressBoardController {
          * transferred and used */
         event.setDropCompleted(success);
 
-        event.consume();	}
+        event.consume();
+     }
 
 }
