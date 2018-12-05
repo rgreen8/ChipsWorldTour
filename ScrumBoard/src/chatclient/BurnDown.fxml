@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chatclient.DisplayControler.java">
+   <children>
+      <Button layoutX="31.0" layoutY="344.0" mnemonicParsing="false" onAction="#toBacklog" prefHeight="27.0" prefWidth="80.0" text="Backlog" />
+      <Button layoutX="271.0" layoutY="344.0" mnemonicParsing="false" onAction="#toScrum" prefHeight="27.0" prefWidth="80.0" text="Scrum" />
+      <Button layoutX="500.0" layoutY="344.0" mnemonicParsing="false" onAction="#toBurn" text="Burndown" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="245.0" layoutY="14.0" prefHeight="17.0" prefWidth="112.0" text="Burn Down" textAlignment="CENTER" />
+   </children>
+</AnchorPane>
