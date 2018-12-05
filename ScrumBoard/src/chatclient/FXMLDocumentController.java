@@ -40,8 +40,8 @@ public class FXMLDocumentController implements Initializable {
         gateway.sendComment(text);
     }
     @FXML
-    private void backToScrum(ActionEvent event) throws IOException {
-		 Parent testparent = FXMLLoader.load(getClass().getResource("Display.fxml"));
+    public void toScrum(ActionEvent event) throws IOException {
+		 Parent testparent = FXMLLoader.load(getClass().getResource("ScrumBoard.fxml"));
 		 Scene testScene = new Scene(testparent);
 		 
 	        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -74,9 +74,9 @@ class TranscriptCheck implements Runnable, chat.ChatConstants {
     
     /** Construct a thread */
     public TranscriptCheck(ChatGateway gateway,TextArea textArea) {
-      this.gateway = gateway;
-      this.textArea = textArea;
-      this.N = 0;
+    		this.gateway = gateway;
+    		this.textArea = textArea;
+    		this.N = 0;
     }
 
     /** Run a thread */
@@ -88,7 +88,7 @@ class TranscriptCheck implements Runnable, chat.ChatConstants {
               N++;
           } else {
               try {
-                  Thread.sleep(250);
+                 Thread.sleep(250);
               } catch(InterruptedException ex) {}
           }
       }

@@ -16,12 +16,12 @@ public class ChatClient extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Display.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLstartup.fxml"));
         
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
-        stage.setTitle("Chat Client");
+        stage.setTitle("SCRUM Client");
         stage.setOnCloseRequest(event->System.exit(0));
         stage.show();
     }
