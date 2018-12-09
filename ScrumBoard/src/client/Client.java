@@ -1,4 +1,4 @@
-package chatclient;
+package client;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +12,7 @@ import javafx.stage.Stage;
  * @modified Jane Cleland-Huang
  * @modified Chip's World Tour
  */
-public class ChatClient extends Application {
+public class Client extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chatclient;
+package client;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,7 +26,7 @@ import javafx.stage.Stage;
  *
  * @author Joe Gregg
  */
-public class FXMLDocumentController implements Initializable {
+public class LoginController implements Initializable {
     private ChatGateway gateway;
     @FXML
     private TextArea textArea;
