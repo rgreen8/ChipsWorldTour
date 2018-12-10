@@ -16,7 +16,7 @@ public class Client extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLstartup.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("ScrumBoard.fxml"));
         
         Scene scene = new Scene(root);
         

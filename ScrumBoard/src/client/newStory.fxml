@@ -4,19 +4,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" text="New Story" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ScrumController">
+<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="318.0" prefWidth="600.0" text="New Story" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.NewStoryController">
   <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="407.0" prefWidth="598.0">
          <children>
-            <CheckBox layoutX="33.0" layoutY="251.0" mnemonicParsing="false" text="To Do" />
-            <CheckBox layoutX="33.0" layoutY="278.0" mnemonicParsing="false" text="In Progress" />
-            <CheckBox layoutX="33.0" layoutY="302.0" mnemonicParsing="false" text="Complete" />
-            <Label layoutX="16.0" layoutY="224.0" prefHeight="17.0" prefWidth="91.0" text="Initial Stage" />
-            <TextField layoutX="24.0" layoutY="51.0" />
-            <TextField layoutX="24.0" layoutY="127.0" />
+            <Label layoutX="15.0" layoutY="216.0" prefHeight="17.0" prefWidth="91.0" text="Initial Stage" />
+            <TextField fx:id="storyNameIn" layoutX="24.0" layoutY="51.0" />
+            <TextField fx:id="storyDescriptionIn" layoutX="24.0" layoutY="127.0" />
             <Label layoutX="24.0" layoutY="110.0" text="Story Description" />
             <Label layoutX="24.0" layoutY="34.0" text="Story Name" />
-            <Button fx:id="closeButton" layoutX="456.0" layoutY="298.0" mnemonicParsing="false" onAction="#closeAndSave" text="Add" />
+            <Button fx:id="closeButton" layoutX="513.0" layoutY="238.0" mnemonicParsing="false" onAction="#closeAndSave" text="Add" />
+            <ChoiceBox fx:id="choicePriority" layoutX="191.0" layoutY="238.0" prefWidth="150.0" value="Low"/>
+            <Label layoutX="191.0" layoutY="216.0" prefHeight="17.0" prefWidth="91.0" text="Priority" />
+            <ChoiceBox fx:id="choiceStage"  layoutX="14.0" layoutY="238.0" prefWidth="150.0" value="Backlog"/>
          </children></AnchorPane>
   </content>
 </TitledPane>

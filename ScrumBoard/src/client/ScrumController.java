@@ -15,8 +15,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class ScrumController {
-	@FXML
-	public Button closeButton;
 	
     @FXML
     public void toScrum(ActionEvent event) throws IOException {
@@ -48,21 +46,6 @@ public class ScrumController {
          stage.setTitle("New Story");
          stage.setScene(new Scene(root1));  
          stage.show();
-    }
-    @FXML
-    private void closeAndSave(ActionEvent event) throws IOException {
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        stage.close();
-    }
-    @FXML
-    private void toBacklog(ActionEvent event) throws IOException {
-		 Parent testparent = FXMLLoader.load(getClass().getResource("BackLog.fxml"));
-		 Scene testScene = new Scene(testparent);
-		 
-	        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-	        
-	        window.setScene(testScene);
-	        window.show();
     }
 
 }
