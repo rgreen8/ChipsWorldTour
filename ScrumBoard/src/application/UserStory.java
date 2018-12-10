@@ -1,6 +1,10 @@
 package application;
 
 public class UserStory {
+	String name;
+	int stage;
+	int priority;
+	String des;
 
 	private boolean _LOCKED_;
 
