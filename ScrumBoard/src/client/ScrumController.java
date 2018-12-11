@@ -100,11 +100,22 @@ public class ScrumController implements Initializable  {
          FXMLLoader loader2 = new  FXMLLoader(getClass().getResource("story.fxml"));
          Pane newStory = loader2.load();
          storyController storyControl = loader2.getController();
-         storyControl.setName(newUser.name);
-         storyControl.setDes(newUser.des);
-         storyControl.setPriority(newUser.priority);
-         // add pane to Hbox
-         backLog.getChildren().add(newStory);
+         storyControl.addStory(newUser);
+         // Figure Out What Pane to Add to
+         System.out.println(newUser.stage);
+         switch(newUser.stage) {
+         	case "To Do":
+         		toDo.getChildren().add(newStory);
+         		break;
+         	case "In Progress":
+         		inProgress.getChildren().add(newStory);
+         		break;
+         	case "Complete":
+         		complete.getChildren().add(newStory);
+         		break;
+         	default: //backlog
+         		backLog.getChildren().add(newStory);
+         }
          // add to stories
          if(stories != null) {
         	 stories.addStoryWhole(newUser);
