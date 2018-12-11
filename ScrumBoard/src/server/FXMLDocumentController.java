@@ -31,7 +31,7 @@ public class FXMLDocumentController implements Initializable {
     
     private int clientNo = 0;
     
-    private StoryBook stories = new StoryBook();;
+    private StoryBook stories;
     
     private ServerSocket serverSocket;
     
@@ -43,7 +43,7 @@ public class FXMLDocumentController implements Initializable {
       try {
         // Create a server socket
         serverSocket = new ServerSocket(8000);
-        stories.storyAdd("Connor", 1, 2, "trial");
+        stories.storyAdd("Connor", "Fun", "toDo", "trial");
         System.out.println("socket made");
         while (true) {
         	System.out.println("listing....");

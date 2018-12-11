@@ -6,12 +6,9 @@ import java.net.UnknownHostException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-<<<<<<< HEAD
-import application.UserStory;
-=======
 import application.StoryBook;
+import application.UserStory;
 import javafx.application.Platform;
->>>>>>> 5be453224a3874937cf49a17d933979a1a38a42b
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,13 +17,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-<<<<<<< HEAD
 import javafx.scene.control.ChoiceBox;
-=======
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
->>>>>>> 5be453224a3874937cf49a17d933979a1a38a42b
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -101,10 +93,18 @@ public class ScrumController implements Initializable  {
          stage.initStyle(StageStyle.UNDECORATED);
          stage.setTitle("New Story");
          stage.showAndWait();
-
          NewStoryController newStoryController = loader.getController();
          UserStory newUser = newStoryController.getNewStory();
-         System.out.println(newUser.name);
+         //added story is now in the main controller 
+         //put information into a story pane
+         FXMLLoader loader2 = new  FXMLLoader(getClass().getResource("story.fxml"));
+         Pane newStory = loader2.load();
+         storyController storyControl = loader2.getController();
+         storyControl.setName(newUser.name);
+         storyControl.setDes(newUser.des);
+         storyControl.setPriority(newUser.priority);
+         // add pane to Hbox
+         backLog.getChildren().add(newStory);
     }
   
 	public void loadStorytoBackLog(ActionEvent event) throws IOException  {
