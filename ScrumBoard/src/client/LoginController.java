@@ -54,7 +54,7 @@ class TranscriptCheck implements Runnable, chat.ChatConstants {
     	} else if(newchange != true && gateway != null) {
          //     
         	  	stories = gateway.getStories();
-        	  	System.out.println("Gatewat Stories: " + stories.stories.get(0).name);
+        	  	System.out.println("Gatewat Stories: " + stories.stories.get(1).name);
           } else {
               try {
                   Thread.sleep(250);

@@ -84,6 +84,7 @@ class HandleAClient implements Runnable, chat.ChatConstants {
         	// try to send an output 
             if(stories != null){System.out.println("Story Added");}
             outputToClient.writeObject(stories);
+            outputToClient.flush();
 	        // Receive request code from the client
 	        StoryBook SB_In = (StoryBook) inputFromClient.readObject();
 	        if(SB_In != null){
