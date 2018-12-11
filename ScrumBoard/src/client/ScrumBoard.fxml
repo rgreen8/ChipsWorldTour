@@ -15,10 +15,10 @@
       <Pane layoutX="610.0" layoutY="27.0" prefHeight="161.0" prefWidth="185.0" style="-fx-background-color: LIGHTSEAGREEN;" />
       <Label layoutX="308.0" layoutY="6.0" text="BackLog" />
       <Label layoutX="641.0" layoutY="5.0" text="Selected Story Info" />
-      <VBox layoutX="6.0" layoutY="196.0" prefHeight="390.0" prefWidth="225.0" style="-fx-background-color: LINEN;" />
-      <VBox layoutX="234.0" layoutY="196.0" prefHeight="390.0" prefWidth="225.0" style="-fx-background-color: LINEN;" />
-      <VBox layoutX="461.0" layoutY="195.0" prefHeight="390.0" prefWidth="225.0" style="-fx-background-color: LINEN;" />
-      <HBox layoutX="6.0" layoutY="27.0" prefHeight="147.0" prefWidth="602.0" style="-fx-background-color: LIGHTPINK;" />
+      <VBox fx:id="toDo" layoutX="6.0" layoutY="196.0" prefHeight="390.0" prefWidth="225.0" style="-fx-background-color: LINEN;" />
+      <VBox fx:id="inProgress" layoutX="234.0" layoutY="196.0" prefHeight="390.0" prefWidth="225.0" style="-fx-background-color: LINEN;" />
+      <VBox fx:id="complete" layoutX="461.0" layoutY="195.0" prefHeight="390.0" prefWidth="225.0" style="-fx-background-color: LINEN;" />
+      <HBox fx:id="backLog" layoutX="6.0" layoutY="27.0" prefHeight="147.0" prefWidth="602.0" style="-fx-background-color: LIGHTPINK;" />
       <Button layoutX="528.0" mnemonicParsing="false" text="Add Story" onAction="#createNew" />
    </children>
 </AnchorPane>

@@ -1,15 +1,19 @@
 package application;
 
 public class UserStory {
-	String name;
-	int stage;
-	int priority;
-	String des;
+	public String name;
+	public String stage;
+	public String priority;
+	public String des;
 
 	private boolean _LOCKED_;
 
-	public UserStory()
+	public UserStory(String name, String des, String stage, String priority)
 	{
+		this.name = name;
+		this.stage = stage;
+		this.des = des;
+		this.priority = priority;
 		_LOCKED_ = false;
 	}
 

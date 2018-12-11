@@ -19,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import application.UserStory;
 
 public class NewStoryController implements Initializable{
 	
@@ -33,17 +34,20 @@ public class NewStoryController implements Initializable{
 	@FXML
 	public Button closeButton;
 	
-    @FXML
-    private void closeAndSave(ActionEvent event) throws IOException {
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        //get info, don't know what to do with it yet
-        System.out.println(storyNameIn.getText());
-        System.out.println(storyDescriptionIn.getText());
-        System.out.println(choiceStage.getValue());
-        System.out.println(choicePriority.getValue());
+	public UserStory input;
+	
+	public UserStory getNewStory(){
+	        return input;
+	}
+	
+	@FXML
+    private void closeAndSave (ActionEvent actionEvent) {
+		Stage stage = (Stage)closeButton.getScene().getWindow();
+		input = new UserStory(storyNameIn.getText(), storyDescriptionIn.getText(), choiceStage.getValue(), choicePriority.getValue());
         stage.close();
     }
-
+	
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ArrayList<String> stageOptions = new ArrayList<String>();
