@@ -80,15 +80,15 @@ class TranscriptCheck implements Runnable, chat.ChatConstants {
     /** Run a thread */
     public void run() {
       
-         // if(gateway.getCommentCount() > N) {
+          if(gateway != null) {
          //     String newComment = gateway.getComment(N);
-         //     Platform.runLater(()->textArea.appendText(newComment + "\n"));
-          //    N++;
-         // } else {
-         //     try {
-         //         Thread.sleep(250);
-         //     } catch(InterruptedException ex) {}
-          //}
+        	  	stories = gateway.getStories();
+        	  	System.out.println("Gatewat Stories: " + stories.stories.get(0).name);
+          } else {
+              try {
+                  Thread.sleep(250);
+              } catch(InterruptedException ex) {}
+          }
               }
           }
 

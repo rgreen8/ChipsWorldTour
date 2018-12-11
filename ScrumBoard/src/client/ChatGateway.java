@@ -24,15 +24,17 @@ public class ChatGateway implements chat.ChatConstants {
             // Create a socket to connect to the server
             Socket socket = new Socket("localhost", 8000);
             System.out.println("socket made");
+            // Create an output stream to send data out
+            ObjectOutputStream outputToSever = new ObjectOutputStream(socket.getOutputStream());
             // Create an input stream to read data from the server
             ObjectInputStream inputFromServer = new ObjectInputStream(socket.getInputStream());
             System.out.println("Incoming Info from server 1 ...");
             StoryBook SB_In = (StoryBook) inputFromServer.readObject();
+            stories = SB_In;
             System.out.println("Incoming Info from server 2 ...");
-            //System.out.print(SB_In.stories.size());
+            System.out.print(SB_In.stories.size());
 
-            // Create an output stream to send data to the server
-            ObjectOutputStream outputToSever = new ObjectOutputStream(socket.getOutputStream());
+            // send data to the server
             StoryBook SB_Out = new StoryBook();
             outputToSever.writeObject(SB_Out);
             System.out.print(SB_Out.stories.size());
@@ -40,5 +42,9 @@ public class ChatGateway implements chat.ChatConstants {
         } catch (IOException ex) {
             Platform.runLater(() -> System.out.println("Exception in gateway constructor: " + ex.toString() + "\n"));
         }
+    }
+    public StoryBook getStories() {
+    	return stories;
+    	
     }
 }
