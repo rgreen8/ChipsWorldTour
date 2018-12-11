@@ -8,12 +8,16 @@ package server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
+
+import application.StoryBook;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,12 +34,14 @@ public class FXMLDocumentController implements Initializable {
     
     private int clientNo = 0;
     private Transcript transcript;
+    private StoryBook stories = new StoryBook();;
     
     private ServerSocket serverSocket;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-      transcript = new Transcript();       
+      transcript = new Transcript();
+      StoryBook stories = new StoryBook();
       new Thread( () -> {
       try {
         // Create a server socket
@@ -47,14 +53,8 @@ public class FXMLDocumentController implements Initializable {
           // Increment clientNo
           clientNo++;
           
-          Platform.runLater( () -> {
-            // Display the client number
-            textArea.appendText("Starting thread for client " + clientNo +
-              " at " + new Date() + '\n');
-            });
-          
           // Create and start a new thread for the connection
-          new Thread(new HandleAClient(socket,transcript,textArea)).start();
+          new Thread(new HandleAClient(socket,stories)).start();
         }
       }
       catch(IOException ex) {
@@ -67,53 +67,35 @@ public class FXMLDocumentController implements Initializable {
 
 class HandleAClient implements Runnable, chat.ChatConstants {
     private Socket socket; // A connected socket
-    private Transcript transcript; // Reference to shared transcript
     private TextArea textArea;
-    private String handle;
+	private StoryBook stories;
 
-    public HandleAClient(Socket socket,Transcript transcript,TextArea textArea) {
+    public HandleAClient(Socket socket, StoryBook stories) {
       this.socket = socket;
-      this.transcript = transcript;
-      this.textArea = textArea;
+      this.stories = stories;
     }
 
     public void run() {
       try {
         // Create reading and writing streams
-        BufferedReader inputFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        PrintWriter outputToClient = new PrintWriter(socket.getOutputStream());
+    	 ObjectOutputStream outputToClient = new ObjectOutputStream(socket.getOutputStream());
+         ObjectInputStream inputFromClient = new ObjectInputStream(socket.getInputStream());
 
         // Continuously serve the client
         while (true) {
           // Receive request code from the client
-          int request = Integer.parseInt(inputFromClient.readLine());
-          // Process request
-          switch(request) {
-              case SEND_HANDLE: {
-                  handle = inputFromClient.readLine();
-                  break;
-              }
-              case SEND_COMMENT: {
-                  String comment = inputFromClient.readLine();
-                  transcript.addComment(handle + "> " + comment);
-                  break;
-              }
-              case GET_COMMENT_COUNT: {
-                  outputToClient.println(transcript.getSize());
-                  outputToClient.flush();
-                  break;
-              }
-              case GET_COMMENT: {
-                  int n = Integer.parseInt(inputFromClient.readLine());
-                  outputToClient.println(transcript.getComment(n));
-                  outputToClient.flush();
-              }
-          }
+        StoryBook SB_In = (StoryBook) inputFromClient.readObject();
+        SB_In.storyAdd("Start Program", 1, 2, "Kick off");
+        
+        outputToClient.writeObject(SB_In);
         }
       }
       catch(IOException ex) {
           Platform.runLater(()->textArea.appendText("Exception in client thread: "+ex.toString()+"\n"));
-      }
+      } catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
       try {
 		socket.close();
 	} catch (IOException e) {

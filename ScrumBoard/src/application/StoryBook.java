@@ -9,7 +9,7 @@ public class StoryBook implements Serializable  {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	ArrayList<UserStory> stories = new ArrayList<UserStory>();
+	public ArrayList<UserStory> stories = new ArrayList<UserStory>();
 
 	public StoryBook() {
 		//set up initial

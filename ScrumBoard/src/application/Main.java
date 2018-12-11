@@ -30,9 +30,6 @@ public class Main extends Application {
 			stage.setScene(scene);
 			stage.show();
 			//Set observers
-			storyBook.addObserver(backlog);
-			storyBook.addObserver(sprint);
-			storyBook.addObserver(burnDown);
 			//set up initial JavaFX (Open to Main Page)
 			setUpPage(1);
 			System.out.println("setup complete");
