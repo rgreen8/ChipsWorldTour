@@ -1,16 +1,32 @@
 package client;
 
 import java.io.IOException;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
+<<<<<<< HEAD
 import application.UserStory;
+=======
+import application.StoryBook;
+import javafx.application.Platform;
+>>>>>>> 5be453224a3874937cf49a17d933979a1a38a42b
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+<<<<<<< HEAD
 import javafx.scene.control.ChoiceBox;
+=======
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
+>>>>>>> 5be453224a3874937cf49a17d933979a1a38a42b
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -19,9 +35,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class ScrumController {
-	
-	@FXML
+public class ScrumController implements Initializable  {
+	private ChatGateway gateway;
+    private StoryBook stories;
+    @FXML
+    private TextField comment;
+    @FXML
 	private HBox backLog;
 	@FXML
 	private VBox toDo;
@@ -31,7 +50,29 @@ public class ScrumController {
 	private VBox complete;
 	@FXML
 	private Pane editPane;
-	
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+    	System.out.println("trying to make gateway");
+		try {
+			gateway = new ChatGateway(stories);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+        System.out.println("gateway made");
+
+        // Start the transcript check thread
+        new Thread(new TranscriptCheck(gateway,stories)).start();
+    } 
+    
     @FXML
     public void toScrum(ActionEvent event) throws IOException {
 		 Parent testparent = FXMLLoader.load(getClass().getResource("ScrumBoard.fxml"));
@@ -39,9 +80,9 @@ public class ScrumController {
 		 
 	     Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 	        
-	     window.setScene(testScene);
-	     window.show();
-    }
+        window.setScene(testScene);
+        window.show();
+    }      
     @FXML
     private void toBurn(ActionEvent event) throws IOException {
 		 Parent testparent = FXMLLoader.load(getClass().getResource("BurnDown.fxml"));

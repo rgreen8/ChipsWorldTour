@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="109.0" prefWidth="140.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="name" layoutX="2.0" layoutY="3.0" prefHeight="17.0" prefWidth="140.0" text="Name" />
+      <Label fx:id="description" alignment="TOP_LEFT" layoutX="3.0" layoutY="20.0" prefHeight="69.0" prefWidth="140.0" text="Description" />
+      <Label layoutX="3.0" layoutY="90.0" prefHeight="17.0" prefWidth="56.0" text="Priority:" />
+      <Label fx:id="priority" layoutX="59.0" layoutY="90.0" text="High" />
+   </children>
+</Pane>

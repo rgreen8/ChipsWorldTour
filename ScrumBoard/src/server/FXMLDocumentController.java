@@ -5,16 +5,13 @@
  */
 package server;
 
-import java.io.BufferedReader;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 import application.StoryBook;
@@ -33,28 +30,31 @@ public class FXMLDocumentController implements Initializable {
     private TextArea textArea;
     
     private int clientNo = 0;
-    private Transcript transcript;
+    
     private StoryBook stories = new StoryBook();;
     
     private ServerSocket serverSocket;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-      transcript = new Transcript();
+     
       StoryBook stories = new StoryBook();
       new Thread( () -> {
       try {
         // Create a server socket
         serverSocket = new ServerSocket(8000);
-        
+        stories.storyAdd("Connor", 1, 2, "trial");
+        System.out.println("socket made");
         while (true) {
+        	System.out.println("listing....");
           // Listen for a new connection request
           Socket socket = serverSocket.accept();    
           // Increment clientNo
           clientNo++;
-          
+          System.out.println("client up");
           // Create and start a new thread for the connection
           new Thread(new HandleAClient(socket,stories)).start();
+          System.out.println("handled");
         }
       }
       catch(IOException ex) {
@@ -67,7 +67,6 @@ public class FXMLDocumentController implements Initializable {
 
 class HandleAClient implements Runnable, chat.ChatConstants {
     private Socket socket; // A connected socket
-    private TextArea textArea;
 	private StoryBook stories;
 
     public HandleAClient(Socket socket, StoryBook stories) {
@@ -80,18 +79,19 @@ class HandleAClient implements Runnable, chat.ChatConstants {
         // Create reading and writing streams
     	 ObjectOutputStream outputToClient = new ObjectOutputStream(socket.getOutputStream());
          ObjectInputStream inputFromClient = new ObjectInputStream(socket.getInputStream());
-
+         System.out.println("Streams up");
         // Continuously serve the client
         while (true) {
-          // Receive request code from the client
-        StoryBook SB_In = (StoryBook) inputFromClient.readObject();
-        SB_In.storyAdd("Start Program", 1, 2, "Kick off");
-        
-        outputToClient.writeObject(SB_In);
+        	// try to send an output 
+            if(stories != null){System.out.println("Story Added");}
+            outputToClient.writeObject(stories);
+	        // Receive request code from the client
+	        StoryBook SB_In = (StoryBook) inputFromClient.readObject();
+	        if(SB_In != null){System.out.println("Received");}
         }
       }
       catch(IOException ex) {
-          Platform.runLater(()->textArea.appendText("Exception in client thread: "+ex.toString()+"\n"));
+          Platform.runLater(()->System.out.println("Exception in client thread: "+ex.toString()+"\n"));
       } catch (ClassNotFoundException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
