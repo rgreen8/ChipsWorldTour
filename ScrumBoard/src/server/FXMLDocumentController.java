@@ -38,12 +38,11 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
      
-      StoryBook stories = new StoryBook();
       new Thread( () -> {
       try {
         // Create a server socket
         serverSocket = new ServerSocket(8000);
-        stories.storyAdd("Connor", 1, 2, "trial");
+        stories.storyAdd("Connor", "1", "2", "trial");
         System.out.println("socket made");
         while (true) {
         	System.out.println("listing....");
@@ -87,7 +86,9 @@ class HandleAClient implements Runnable, chat.ChatConstants {
             outputToClient.writeObject(stories);
 	        // Receive request code from the client
 	        StoryBook SB_In = (StoryBook) inputFromClient.readObject();
-	        if(SB_In != null){System.out.println("Received");}
+	        if(SB_In != null){
+	        	System.out.println("Received");
+	        	System.out.print(SB_In.stories.size());}
         }
       }
       catch(IOException ex) {

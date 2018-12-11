@@ -1,6 +1,12 @@
 package application;
 
-public class UserStory {
+import java.io.Serializable;
+
+public class UserStory implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public String name;
 	public String stage;
 	public String priority;

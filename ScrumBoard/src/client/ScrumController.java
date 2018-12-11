@@ -6,12 +6,8 @@ import java.net.UnknownHostException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-<<<<<<< HEAD
 import application.UserStory;
-=======
 import application.StoryBook;
-import javafx.application.Platform;
->>>>>>> 5be453224a3874937cf49a17d933979a1a38a42b
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,15 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-<<<<<<< HEAD
-import javafx.scene.control.ChoiceBox;
-=======
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
->>>>>>> 5be453224a3874937cf49a17d933979a1a38a42b
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
