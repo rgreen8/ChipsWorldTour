@@ -17,6 +17,9 @@ public class StoryBook implements Serializable  {
 		UserStory US = new UserStory(name, des, stage, priority);
 		stories.add(US);
 	}
+	public void addStoryWhole(UserStory newS) {
+		stories.add(newS);
+	}
 	public void storyDelete(UserStory US) {
 		if(US == null || stories.contains(US) == false) {
 			System.out.println("Story not Made, try again");

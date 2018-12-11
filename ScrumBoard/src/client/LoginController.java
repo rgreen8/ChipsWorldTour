@@ -29,59 +29,30 @@ import javafx.stage.Stage;
  *
  * @author Joe Gregg
  */
-public class LoginController implements Initializable {
-    private ChatGateway gateway;
-    private StoryBook stories;
-    @FXML
-    private TextField comment;
-       
-    @FXML
-    public void toScrum(ActionEvent event) throws IOException {
-		 Parent testparent = FXMLLoader.load(getClass().getResource("ScrumBoard.fxml"));
-		 Scene testScene = new Scene(testparent);
-		 
-	        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-	        
-	        window.setScene(testScene);
-	        window.show();
-    }
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        try {
-			gateway = new ChatGateway(stories);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
-        // Start the transcript check thread
-        new Thread(new TranscriptCheck(gateway,stories)).start();
-    }        
-}
 
 class TranscriptCheck implements Runnable, chat.ChatConstants {
     private ChatGateway gateway; // Gateway to the server
     private StoryBook stories; // Where to info pass
-    private int N; // How many comments we have read
+    private boolean newchange;
     
     /** Construct a thread */
-    public TranscriptCheck(ChatGateway gateway,StoryBook stories) {
+    public TranscriptCheck(ChatGateway gateway,StoryBook stories,boolean newchange) {
     		this.gateway = gateway;
     		this.stories = stories;
-    		this.N = 0;
+    		this.newchange = newchange;
     }
 
     /** Run a thread */
     public void run() {
       
-          if(gateway != null) {
-         //     String newComment = gateway.getComment(N);
+    	if(newchange) {
+    		// update the stories on the server
+    		gateway.updateStories(stories);
+    		System.out.println("New Story pushed: " + stories.stories.size());
+    		
+    	} else if(newchange != true && gateway != null) {
+         //     
         	  	stories = gateway.getStories();
         	  	System.out.println("Gatewat Stories: " + stories.stories.get(0).name);
           } else {

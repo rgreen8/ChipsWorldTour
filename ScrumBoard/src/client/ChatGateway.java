@@ -15,7 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
 public class ChatGateway implements chat.ChatConstants {
-	StoryBook stories;
+	public StoryBook stories;
     // Establish the connection to the server.
     public ChatGateway(StoryBook Stories) throws UnknownHostException,
     IOException, ClassNotFoundException {
@@ -35,9 +35,8 @@ public class ChatGateway implements chat.ChatConstants {
             System.out.print(SB_In.stories.size());
 
             // send data to the server
-            StoryBook SB_Out = new StoryBook();
-            outputToSever.writeObject(SB_Out);
-            System.out.print(SB_Out.stories.size());
+            outputToSever.writeObject(stories);
+            System.out.print(stories.stories.size());
 
         } catch (IOException ex) {
             Platform.runLater(() -> System.out.println("Exception in gateway constructor: " + ex.toString() + "\n"));
@@ -46,5 +45,8 @@ public class ChatGateway implements chat.ChatConstants {
     public StoryBook getStories() {
     	return stories;
     	
+    }
+    public void updateStories(StoryBook N_stories) {
+    	this.stories = N_stories;
     }
 }

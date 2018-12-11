@@ -25,7 +25,8 @@ import javafx.stage.StageStyle;
 
 public class ScrumController implements Initializable  {
 	private ChatGateway gateway;
-    private StoryBook stories;
+    public StoryBook stories = new StoryBook();;
+   public  boolean changemade = false;
     @FXML
     private TextField comment;
     @FXML
@@ -58,7 +59,8 @@ public class ScrumController implements Initializable  {
         System.out.println("gateway made");
 
         // Start the transcript check thread
-        new Thread(new TranscriptCheck(gateway,stories)).start();
+        System.out.println(changemade + " outside of call");
+        new Thread(new TranscriptCheck(gateway,stories,changemade)).start();
     } 
     
     @FXML
@@ -81,6 +83,8 @@ public class ScrumController implements Initializable  {
     }
     @FXML
     private void createNew(ActionEvent event) throws IOException {
+    	changemade = true;
+    	System.out.println(changemade + " inside call");
     	 FXMLLoader loader = new FXMLLoader(getClass().getResource("newStory.fxml"));
     	 Parent root = loader.load();
          Stage stage = new Stage ();
@@ -101,6 +105,11 @@ public class ScrumController implements Initializable  {
          storyControl.setPriority(newUser.priority);
          // add pane to Hbox
          backLog.getChildren().add(newStory);
+         // add to stories
+         if(stories != null) {
+        	 stories.addStoryWhole(newUser);
+         }else
+         	{System.out.println("Fucked");}
     }
   
 	public void loadStorytoBackLog(ActionEvent event) throws IOException  {

@@ -25,13 +25,13 @@ import javafx.scene.control.TextArea;
  * @author Joe Gregg
  */
 public class FXMLDocumentController implements Initializable {
-    
+
     @FXML
     private TextArea textArea;
     
     private int clientNo = 0;
     
-    private StoryBook stories;
+    private StoryBook stories = new StoryBook();;
     
     private ServerSocket serverSocket;
     
@@ -42,7 +42,7 @@ public class FXMLDocumentController implements Initializable {
       try {
         // Create a server socket
         serverSocket = new ServerSocket(8000);
-        stories.storyAdd("Connor", "Fun", "toDo", "trial");
+        stories.storyAdd("Connor", "1", "2", "trial");
         System.out.println("socket made");
         while (true) {
         	System.out.println("listing....");
