@@ -6,6 +6,7 @@ import java.net.UnknownHostException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import application.StoryBook;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,25 +26,15 @@ import javafx.stage.StageStyle;
 
 public class ScrumController implements Initializable  {
 	private ChatGateway gateway;
-    @FXML
-    private TextArea textArea;
+    private StoryBook stories;
     @FXML
     private TextField comment;
-           
-    @FXML
-    public void toScrum(ActionEvent event) throws IOException {
-		 Parent testparent = FXMLLoader.load(getClass().getResource("ScrumBoard.fxml"));
-		 Scene testScene = new Scene(testparent);
-		 
-	        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-	        
-	        window.setScene(testScene);
-	        window.show();
-    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-			gateway = new ChatGateway(textArea);
+    	System.out.println("trying to make gateway");
+		try {
+			gateway = new ChatGateway(stories);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,17 +45,23 @@ public class ScrumController implements Initializable  {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-        // Put up a dialog to get a handle from the user
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Start Chat");
-        dialog.setHeaderText(null);
-        dialog.setContentText("Enter a handle:");
-       
+		
+        System.out.println("gateway made");
 
         // Start the transcript check thread
-        new Thread(new TranscriptCheck(gateway,textArea)).start();
-    }       
+        new Thread(new TranscriptCheck(gateway,stories)).start();
+    } 
+    
+    @FXML
+    public void toScrum(ActionEvent event) throws IOException {
+		 Parent testparent = FXMLLoader.load(getClass().getResource("ScrumBoard.fxml"));
+		 Scene testScene = new Scene(testparent);
+		 
+	        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+	        
+	        window.setScene(testScene);
+	        window.show();
+    }      
 
 
     @FXML
