@@ -7,6 +7,7 @@ package client;
 
 import java.io.IOException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -32,13 +33,7 @@ public class LoginController implements Initializable {
     private TextArea textArea;
     @FXML
     private TextField comment;
-           
-    
-    @FXML
-    private void sendComment(ActionEvent event) {
-        String text = comment.getText();
-        gateway.sendComment(text);
-    }
+       
     @FXML
     public void toScrum(ActionEvent event) throws IOException {
 		 Parent testparent = FXMLLoader.load(getClass().getResource("ScrumBoard.fxml"));
@@ -51,7 +46,18 @@ public class LoginController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        gateway = new ChatGateway(textArea);
+        try {
+			gateway = new ChatGateway(textArea);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         // Put up a dialog to get a handle from the user
         TextInputDialog dialog = new TextInputDialog();
@@ -60,7 +66,7 @@ public class LoginController implements Initializable {
         dialog.setContentText("Enter a handle:");
 
         Optional<String> result = dialog.showAndWait();
-        result.ifPresent(name -> gateway.sendHandle(name));
+       // result.ifPresent(name -> gateway.sendHandle(name));
 
         // Start the transcript check thread
         new Thread(new TranscriptCheck(gateway,textArea)).start();
@@ -82,15 +88,13 @@ class TranscriptCheck implements Runnable, chat.ChatConstants {
     /** Run a thread */
     public void run() {
       while(true) {
-          if(gateway.getCommentCount() > N) {
-              String newComment = gateway.getComment(N);
-              Platform.runLater(()->textArea.appendText(newComment + "\n"));
-              N++;
-          } else {
-              try {
-                 Thread.sleep(250);
-              } catch(InterruptedException ex) {}
+                 try {
+					Thread.sleep(250);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+              }
           }
-      }
-    }
-  }
+		}
+  

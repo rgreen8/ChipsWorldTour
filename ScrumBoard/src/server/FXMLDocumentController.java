@@ -85,7 +85,6 @@ class HandleAClient implements Runnable, chat.ChatConstants {
         while (true) {
           // Receive request code from the client
         StoryBook SB_In = (StoryBook) inputFromClient.readObject();
-        SB_In.storyAdd("Start Program", 1, 2, "Kick off");
         
         outputToClient.writeObject(SB_In);
         }
