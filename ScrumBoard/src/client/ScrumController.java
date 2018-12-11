@@ -57,11 +57,31 @@ public class ScrumController implements Initializable  {
 		}
 		
         System.out.println("gateway made");
-
+        stories = gateway.getStories();
+        try {
+			update(stories);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         // Start the transcript check thread
         System.out.println(changemade + " outside of call");
         new Thread(new TranscriptCheck(gateway,stories,changemade)).start();
     } 
+    
+    private void update(StoryBook stories) throws IOException {
+    
+    for(int i = 0; i < stories.stories.size(); i++) {
+    	FXMLLoader loader2 = new  FXMLLoader(getClass().getResource("story.fxml"));
+        Pane newStory = loader2.load();
+        storyController storyControl = loader2.getController();
+        storyControl.setName(stories.stories.get(i).name);
+        storyControl.setDes(stories.stories.get(i).des);
+        storyControl.setPriority(stories.stories.get(i).priority);
+        // add pane to Hbox
+        backLog.getChildren().add(newStory);
+    }
+	}
     
     @FXML
     public void toScrum(ActionEvent event) throws IOException {

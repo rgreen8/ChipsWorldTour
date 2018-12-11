@@ -36,6 +36,7 @@ public class ChatGateway implements chat.ChatConstants {
 
             // send data to the server
             outputToSever.writeObject(stories);
+            outputToSever.flush();
             System.out.print(stories.stories.size());
 
         } catch (IOException ex) {
