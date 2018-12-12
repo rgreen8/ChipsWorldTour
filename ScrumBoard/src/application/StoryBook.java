@@ -8,7 +8,11 @@ public class StoryBook implements Serializable  {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5961439281379779580L;
+	/**
+	 * 
+	 */
+	
 	public ArrayList<UserStory> stories = new ArrayList<UserStory>();
 
 	public StoryBook() {

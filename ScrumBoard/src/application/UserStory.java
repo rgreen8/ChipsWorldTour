@@ -6,7 +6,11 @@ public class UserStory implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -784831226429433514L;
+	/**
+	 * 
+	 */
+	
 	public String name;
 	public String stage;
 	public String priority;

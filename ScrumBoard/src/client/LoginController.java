@@ -34,27 +34,28 @@ import javafx.stage.Stage;
 class TranscriptCheck implements Runnable, chat.ChatConstants {
     private ChatGateway gateway; // Gateway to the server
     private StoryBook stories; // Where to info pass
-    private boolean newchange;
     
     /** Construct a thread */
     public TranscriptCheck(ChatGateway gateway,StoryBook stories,boolean newchange) {
     		this.gateway = gateway;
     		this.stories = stories;
-    		this.newchange = newchange;
+    		
     }
 
     /** Run a thread */
     public void run() {
       
-    	if(newchange) {
+    	if(gateway != null) {
     		// update the stories on the server
-    		gateway.updateStories(stories);
-    		System.out.println("New Story pushed: " + stories.stories.size());
-    		
-    	} else if(newchange != true && gateway != null) {
-         //     
-        	  	stories = gateway.getStories();
-        	  	System.out.println("Gatewat Stories: " + stories.stories.get(1).name);
+    		try {
+				gateway.updateStories(stories);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		System.out.println("New Story pushed, size is now: " + stories.stories.size());
+    	  	stories = gateway.getStories();
+    	  	
           } else {
               try {
                   Thread.sleep(250);

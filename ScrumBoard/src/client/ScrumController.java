@@ -65,22 +65,22 @@ public class ScrumController implements Initializable  {
 			e.printStackTrace();
 		}
         // Start the transcript check thread
-        System.out.println(changemade + " outside of call");
         new Thread(new TranscriptCheck(gateway,stories,changemade)).start();
+        System.out.println("New number of stories is: " + stories.stories.size());
     } 
     
     private void update(StoryBook stories) throws IOException {
     
-    for(int i = 0; i < stories.stories.size(); i++) {
-    	FXMLLoader loader2 = new  FXMLLoader(getClass().getResource("story.fxml"));
-        Pane newStory = loader2.load();
-        storyController storyControl = loader2.getController();
-        storyControl.setName(stories.stories.get(i).name);
-        storyControl.setDes(stories.stories.get(i).des);
-        storyControl.setPriority(stories.stories.get(i).priority);
-        // add pane to Hbox
-        backLog.getChildren().add(newStory);
-    }
+    	for(int i = 0; i < stories.stories.size(); i++) {
+	    	FXMLLoader loader2 = new  FXMLLoader(getClass().getResource("story.fxml"));
+	        Pane newStory = loader2.load();
+	        storyController storyControl = loader2.getController();
+	        storyControl.setName(stories.stories.get(i).name);
+	        storyControl.setDes(stories.stories.get(i).des);
+	        storyControl.setPriority(stories.stories.get(i).priority);
+	        // add pane to Hbox
+	        backLog.getChildren().add(newStory);
+	    }
 	}
     
     @FXML
@@ -126,10 +126,12 @@ public class ScrumController implements Initializable  {
          // add pane to Hbox
          backLog.getChildren().add(newStory);
          // add to stories
-         if(stories != null) {
-        	 stories.addStoryWhole(newUser);
+         if(this.stories != null) {
+        	 this.stories.addStoryWhole(newUser);
+        	 System.out.println("new user added");
+        	 this.gateway.updateStories(stories);
          }else
-         	{System.out.println("Fucked");}
+         	{System.out.println("not good");}
     }
   
 	public void loadStorytoBackLog(ActionEvent event) throws IOException  {

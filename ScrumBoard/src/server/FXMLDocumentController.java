@@ -77,7 +77,6 @@ class HandleAClient implements Runnable, chat.ChatConstants {
       try {
         // Create reading and writing streams
     	 ObjectOutputStream outputToClient = new ObjectOutputStream(socket.getOutputStream());
-         ObjectInputStream inputFromClient = new ObjectInputStream(socket.getInputStream());
          System.out.println("Streams up");
         // Continuously serve the client
         while (true) {
@@ -86,10 +85,11 @@ class HandleAClient implements Runnable, chat.ChatConstants {
             outputToClient.writeObject(stories);
             outputToClient.flush();
 	        // Receive request code from the client
+            ObjectInputStream inputFromClient = new ObjectInputStream(socket.getInputStream());
 	        StoryBook SB_In = (StoryBook) inputFromClient.readObject();
 	        if(SB_In != null){
-	        	System.out.println("Received");
-	        	System.out.print(SB_In.stories.size());}
+	        	System.out.println("Received elements size is: " + SB_In.stories.size());
+	        }
         }
       }
       catch(IOException ex) {
