@@ -29,5 +29,13 @@ public class storyController {
         priority.setText(string);
     }
 	
+	public void openToEdit() {
+		//put info into edit pane on Scrum Board, pre populate, allow user to edit
+		
+		//need a "update button" to hit if you want information
+		
+		//update must be reflected in sories array and on board
+	}
+	
 	
 }
