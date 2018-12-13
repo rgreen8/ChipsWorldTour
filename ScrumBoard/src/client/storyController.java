@@ -54,7 +54,7 @@ public class storyController {
     }
 	@FXML
 	private void openToEdit(ActionEvent event) throws IOException {
-		UserStory oldState = new UserStory(name.getText(), description.getText(), "toDo", priority.getText());
+		UserStory oldState = new UserStory(name.getText(), description.getText(), "backLog", priority.getText());
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("storyEdit.fxml"));
    	 	Parent root = loader.load();
         Stage stage = new Stage ();
@@ -71,9 +71,9 @@ public class storyController {
         System.out.println(updatedUser.name);
         //update values in story controller
         setStory(updatedUser);
+        System.out.println(oldState.name);
         //update values in Scrum Controller
-        FXMLLoader parent = new FXMLLoader(getClass().getResource("ScrumBoard.fxml"));
-        ScrumController scrumController = parent.<ScrumController>getController();
+        
         scrumController.updateStoryBook(oldState, updatedUser);
         
 	}
