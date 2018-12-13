@@ -1,8 +1,12 @@
 package client;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 
@@ -15,7 +19,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -24,8 +33,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class ScrumController implements Initializable  {
+	private ChatGateway gateway;
     public StoryBook stories = new StoryBook();;
-    public ChatGateway gateway;
    public  boolean changemade = false;
     @FXML
     private TextField comment;
@@ -66,7 +75,7 @@ public class ScrumController implements Initializable  {
 		}
         // Start the transcript check thread
         new Thread(new TranscriptCheck(gateway,stories,changemade)).start();
-        System.out.println("New number of stories  at scrum Control is: " + stories.stories.size());
+        System.out.println("New number of stories is: " + stories.stories.size());
     } 
     
     private void update(StoryBook stories) throws IOException {
@@ -121,6 +130,7 @@ public class ScrumController implements Initializable  {
          Pane newStory = loader2.load();
          storyController storyControl = loader2.getController();
          storyControl.addStory(newUser);
+         
          // Figure Out What Pane to Add to
          System.out.println(newUser.stage);
          switch(newUser.stage) {
@@ -135,18 +145,430 @@ public class ScrumController implements Initializable  {
          		break;
          	default: //backlog
          		backLog.getChildren().add(newStory);
+         		break;
          }
          // add to stories
-         this.gateway.addStoryToSever(newUser);
-         System.out.println("new user added in scrum controller");
-        
+         if(this.stories != null) {
+        	 this.stories.addStoryWhole(newUser);
+        	 System.out.println("new user added");
+        	 this.gateway.updateStories(stories);
+         }else
+         	{System.out.println("not good");}
     }
   
 	public void loadStorytoBackLog(ActionEvent event) throws IOException  {
 	  Pane newLoadedPane =  FXMLLoader.load(getClass().getResource("story.fxml"));
 	  backLog.getChildren().add(newLoadedPane);
 	}
+	
+	@FXML
+	protected void toDoOnDragOver(DragEvent event) {
+		 if (event.getGestureSource() != toDo && event.getDragboard().hasString()) {
+		        event.acceptTransferModes(TransferMode.ANY);
+		 }
+		 event.consume();
+	}
+	
+	@FXML
+	protected void toDoOnDragDropped(DragEvent event) {
+		System.out.println("Drag dropped");
+	    //Get the drag-board back
+	    Dragboard db = event.getDragboard();
+	    boolean success = false;
+	    if (db.hasString()) {
+	    	String storyDataString = db.getString();
+	    	Properties props = new Properties();
+	    	try {
+				props.load(new StringReader(storyDataString.substring(1, storyDataString.length() - 1).replace(", ", "\n")));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}       
+	    	Map<String, String> map2 = new HashMap<String, String>();
+	    	for (Map.Entry<Object, Object> e : props.entrySet()) {
+	    	    map2.put((String)e.getKey(), (String)e.getValue());
+	    	}
+	    	
+	    	switch (map2.get("originPane")) {
+	    		case "backLog":
+	    			int matchingDescriptionFromBackLogIterator = 0;
+	    			for (Node node : this.backLog.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.backLog.getChildren().remove(matchingDescriptionFromBackLogIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromBackLogIterator++;
+	    			}
+	    			break;
+	    		case "complete":
+	    			int matchingDescriptionFromCompleteIterator = 0;
+	    			for (Node node : this.complete.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.complete.getChildren().remove(matchingDescriptionFromCompleteIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromCompleteIterator++;
+	    			}
+	    			break;
+	    		case "inProgress":
+	    			int matchingDescriptionFromInProgressIterator = 0;
+	    			for (Node node : this.inProgress.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.inProgress.getChildren().remove(matchingDescriptionFromInProgressIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromInProgressIterator++;
+	    			}
+	    			break;
+	    	}
+	    	
+	    	// Place onto toDo Pane
+	        FXMLLoader loader2Temp = new FXMLLoader(getClass().getResource("story.fxml"));
+	        Pane newStoryTemp = null;
+	        try {
+				newStoryTemp = loader2Temp.load();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	        storyController storyControl = loader2Temp.getController();
+	        
+	        UserStory newUserTemp = new UserStory(map2.get("name"), map2.get("description"), "toDo", map2.get("priorityLevel"));
 
+	        storyControl.addStory(newUserTemp);
+	        
+	        toDo.getChildren().add(newStoryTemp);
+	        this.stories.addStoryWhole(newUserTemp);
+	        try {
+				this.gateway.updateStories(stories);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	    	
+	    	// Mark success
+	        success = true;
+	    }
+	    // Complete and consume the event.
+	    event.setDropCompleted(success);
+	    event.consume();
+	    
+	    // Remove child from original pane
+	    //toDo.getChildren().
+	}
+
+	@FXML
+	protected void inProgressDragOver(DragEvent event) {
+		 if (event.getGestureSource() != inProgress && event.getDragboard().hasString()) {
+		        event.acceptTransferModes(TransferMode.ANY);
+		 }
+		 event.consume();
+	}
+	
+	@FXML
+	protected void inProgressDragDropped(DragEvent event) {
+		System.out.println("Drag dropped");
+	    //Get the drag-board back
+	    Dragboard db = event.getDragboard();
+	    boolean success = false;
+	    if (db.hasString()) {
+	    	String storyDataString = db.getString();
+	    	Properties props = new Properties();
+	    	try {
+				props.load(new StringReader(storyDataString.substring(1, storyDataString.length() - 1).replace(", ", "\n")));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}       
+	    	Map<String, String> map2 = new HashMap<String, String>();
+	    	for (Map.Entry<Object, Object> e : props.entrySet()) {
+	    	    map2.put((String)e.getKey(), (String)e.getValue());
+	    	}
+	    	
+	    	switch (map2.get("originPane")) {
+	    		case "backLog":
+	    			int matchingDescriptionFromBackLogIterator = 0;
+	    			for (Node node : this.backLog.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.backLog.getChildren().remove(matchingDescriptionFromBackLogIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromBackLogIterator++;
+	    			}
+	    			break;
+	    		case "toDo":
+	    			int matchingDescriptionFromToDoIterator = 0;
+	    			for (Node node : this.toDo.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.toDo.getChildren().remove(matchingDescriptionFromToDoIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromToDoIterator++;
+	    			}
+	    			break;
+	    		case "complete":
+	    			int matchingDescriptionFromCompleteIterator = 0;
+	    			for (Node node : this.complete.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.complete.getChildren().remove(matchingDescriptionFromCompleteIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromCompleteIterator++;
+	    			}
+	    			break;
+	    	}
+	    	
+	    	// Place onto inProgress Pane
+	        FXMLLoader loader2Temp = new FXMLLoader(getClass().getResource("story.fxml"));
+	        Pane newStoryTemp = null;
+	        try {
+				newStoryTemp = loader2Temp.load();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	        storyController storyControl = loader2Temp.getController();
+	        
+	        UserStory newUserTemp = new UserStory(map2.get("name"), map2.get("description"), "inProgress", map2.get("priorityLevel"));
+
+	        storyControl.addStory(newUserTemp);
+	        
+	        inProgress.getChildren().add(newStoryTemp);
+	        this.stories.addStoryWhole(newUserTemp);
+	        try {
+				this.gateway.updateStories(stories);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	    	
+	    	// Mark success
+	        success = true;
+	    }
+	    // Complete and consume the event.
+	    event.setDropCompleted(success);
+	    event.consume();
+	    
+	    // Remove child from original pane
+	    //toDo.getChildren().
+	}
+	
+	@FXML
+	protected void completedDragOver(DragEvent event) {
+		 if (event.getGestureSource() != complete && event.getDragboard().hasString()) {
+		        event.acceptTransferModes(TransferMode.ANY);
+		 }
+		 event.consume();
+	}
+	
+	@FXML
+	protected void completedDragDropped(DragEvent event) {
+		System.out.println("Drag dropped");
+	    //Get the drag-board back
+	    Dragboard db = event.getDragboard();
+	    boolean success = false;
+	    if (db.hasString()) {
+	    	String storyDataString = db.getString();
+	    	Properties props = new Properties();
+	    	try {
+				props.load(new StringReader(storyDataString.substring(1, storyDataString.length() - 1).replace(", ", "\n")));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}       
+	    	Map<String, String> map2 = new HashMap<String, String>();
+	    	for (Map.Entry<Object, Object> e : props.entrySet()) {
+	    	    map2.put((String)e.getKey(), (String)e.getValue());
+	    	}
+	    	
+	    	switch (map2.get("originPane")) {
+	    		case "backLog":
+	    			int matchingDescriptionFromBackLogIterator = 0;
+	    			for (Node node : this.backLog.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.backLog.getChildren().remove(matchingDescriptionFromBackLogIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromBackLogIterator++;
+	    			}
+	    			break;
+	    		case "toDo":
+	    			int matchingDescriptionFromToDoIterator = 0;
+	    			for (Node node : this.toDo.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.toDo.getChildren().remove(matchingDescriptionFromToDoIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromToDoIterator++;
+	    			}
+	    			break;
+	    		case "inProgress":
+	    			int matchingDescriptionFromInProgressIterator = 0;
+	    			for (Node node : this.inProgress.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.inProgress.getChildren().remove(matchingDescriptionFromInProgressIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromInProgressIterator++;
+	    			}
+	    			break;
+	    	}
+	    	
+	    	// Place onto complete Pane
+	        FXMLLoader loader2Temp = new FXMLLoader(getClass().getResource("story.fxml"));
+	        Pane newStoryTemp = null;
+	        try {
+				newStoryTemp = loader2Temp.load();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	        storyController storyControl = loader2Temp.getController();
+	        
+	        UserStory newUserTemp = new UserStory(map2.get("name"), map2.get("description"), "complete", map2.get("priorityLevel"));
+
+	        storyControl.addStory(newUserTemp);
+	        
+	        complete.getChildren().add(newStoryTemp);
+	        this.stories.addStoryWhole(newUserTemp);
+	        try {
+				this.gateway.updateStories(stories);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	    	
+	    	// Mark success
+	        success = true;
+	    }
+	    // Complete and consume the event.
+	    event.setDropCompleted(success);
+	    event.consume();
+	    
+	    // Remove child from original pane
+	    
+	}
+	
+	@FXML
+	protected void backLogDragOver(DragEvent event) {
+		 if (event.getGestureSource() != backLog && event.getDragboard().hasString()) {
+		        event.acceptTransferModes(TransferMode.ANY);
+		 }
+		 event.consume();
+	}
+	
+	@FXML
+	protected void backLogDragDropped(DragEvent event) {
+		System.out.println("Drag dropped");
+	    //Get the drag-board back
+	    Dragboard db = event.getDragboard();
+	    boolean success = false;
+	    if (db.hasString()) {
+	    	String storyDataString = db.getString();
+	    	Properties props = new Properties();
+	    	try {
+				props.load(new StringReader(storyDataString.substring(1, storyDataString.length() - 1).replace(", ", "\n")));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}       
+	    	Map<String, String> map2 = new HashMap<String, String>();
+	    	for (Map.Entry<Object, Object> e : props.entrySet()) {
+	    	    map2.put((String)e.getKey(), (String)e.getValue());
+	    	}
+	    	
+	    	switch (map2.get("originPane")) {
+	    		case "complete":
+	    			int matchingDescriptionFromCompleteIterator = 0;
+	    			for (Node node : this.complete.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.complete.getChildren().remove(matchingDescriptionFromCompleteIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromCompleteIterator++;
+	    			}
+	    			break;
+	    		case "toDo":
+	    			int matchingDescriptionFromToDoIterator = 0;
+	    			for (Node node : this.toDo.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.toDo.getChildren().remove(matchingDescriptionFromToDoIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromToDoIterator++;
+	    			}
+	    			break;
+	    		case "inProgress":
+	    			int matchingDescriptionFromInProgressIterator = 0;
+	    			for (Node node : this.inProgress.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.inProgress.getChildren().remove(matchingDescriptionFromInProgressIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromInProgressIterator++;
+	    			}
+	    			break;
+	    	}
+	    	
+	    	// Place onto backLog Pane
+	        FXMLLoader loader2Temp = new FXMLLoader(getClass().getResource("story.fxml"));
+	        Pane newStoryTemp = null;
+	        try {
+				newStoryTemp = loader2Temp.load();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	        storyController storyControl = loader2Temp.getController();
+	        
+	        UserStory newUserTemp = new UserStory(map2.get("name"), map2.get("description"), "backLog", map2.get("priorityLevel"));
+
+	        storyControl.addStory(newUserTemp);
+	        
+	        backLog.getChildren().add(newStoryTemp);
+	        this.stories.addStoryWhole(newUserTemp);
+	        try {
+				this.gateway.updateStories(stories);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	    	
+	    	// Mark success
+	        success = true;
+	    }
+	    // Complete and consume the event.
+	    event.setDropCompleted(success);
+	    event.consume();
+	    
+	    // Remove child from original pane
+	    //toDo.getChildren().
+	}
+	
 }
 
 class TranscriptCheck implements Runnable {
