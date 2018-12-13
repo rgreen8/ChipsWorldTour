@@ -31,8 +31,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class ScrumController implements Initializable  {
-	private ChatGateway gateway;
     public StoryBook stories = new StoryBook();;
+    public ChatGateway gateway;
    public  boolean changemade = false;
     @FXML
     private TextField comment;
@@ -73,7 +73,7 @@ public class ScrumController implements Initializable  {
 		}
         // Start the transcript check thread
         new Thread(new TranscriptCheck(gateway,stories,changemade)).start();
-        System.out.println("New number of stories is: " + stories.stories.size());
+        System.out.println("New number of stories  at scrum Control is: " + stories.stories.size());
     } 
     
     private void update(StoryBook stories) throws IOException {
@@ -146,12 +146,9 @@ public class ScrumController implements Initializable  {
          		break;
          }
          // add to stories
-         if(this.stories != null) {
-        	 this.stories.addStoryWhole(newUser);
-        	 System.out.println("new user added");
-        	 this.gateway.updateStories(stories);
-         }else
-         	{System.out.println("not good");}
+         this.gateway.addStoryToSever(newUser);
+         System.out.println("new user added in scrum controller");
+        
     }
   
 	public void loadStorytoBackLog(ActionEvent event) throws IOException  {
