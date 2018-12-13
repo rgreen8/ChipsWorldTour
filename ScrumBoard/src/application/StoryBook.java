@@ -15,20 +15,23 @@ public class StoryBook implements Serializable  {
 	
 	public ArrayList<UserStory> stories = new ArrayList<UserStory>();
 
-	public StoryBook() {
-	}
+	public StoryBook() {}
+	
 	public void storyAdd(String name, String stage, String priority, String des) {
-		UserStory US = new UserStory(name, des, stage, priority);
-		stories.add(US);
+		UserStory userStory = new UserStory(name, des, stage, priority);
+		stories.add(userStory);
 	}
-	public void addStoryWhole(UserStory newS) {
-		stories.add(newS);
+	
+	public void addStoryWhole(UserStory wholeNewStory) {
+		stories.add(wholeNewStory);
 	}
-	public void storyDelete(UserStory US) {
-		if(US == null || stories.contains(US) == false) {
+	
+	public void storyDelete(UserStory userStory) {
+		if(userStory == null || stories.contains(userStory) == false) {
 			System.out.println("Story not Made, try again");
 		} else {
-			stories.remove(US);
+			stories.remove(userStory);
 		}
 	}
+	
 }

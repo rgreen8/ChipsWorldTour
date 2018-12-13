@@ -48,12 +48,14 @@ public class ScrumController implements Initializable  {
 	private VBox complete;
 	@FXML
 	private Pane editPane;
+	@FXML
+	private Pane trashPane;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     	System.out.println("trying to make gateway");
 		try {
-			gateway = new ChatGateway(stories);
+			gateway = new ChatGateway();
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -66,7 +68,12 @@ public class ScrumController implements Initializable  {
 		}
 		
         System.out.println("gateway made");
-        stories = gateway.getStories();
+        try {
+			stories = gateway.getStories();
+		} catch (ClassNotFoundException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         try {
 			update(stories);
 		} catch (IOException e) {
@@ -78,6 +85,15 @@ public class ScrumController implements Initializable  {
         System.out.println("New number of stories  at scrum Control is: " + stories.stories.size());
     } 
     
+    @FXML
+	private void refreshStories(ActionEvent event) throws IOException, ClassNotFoundException {
+    	this.gateway.updateStories();
+    	System.out.println("New number of stories  at refresh is: " + this.gateway.stories.stories.size());
+    	this.gateway.grabStories();
+    	System.out.println("New number of stories  at refresh is: " + this.gateway.stories.stories.size());
+		update(this.gateway.stories);
+	}
+    
     private void update(StoryBook stories) throws IOException {
     
     	for(int i = 0; i < stories.stories.size(); i++) {
@@ -88,7 +104,19 @@ public class ScrumController implements Initializable  {
 	        storyControl.setDes(stories.stories.get(i).des);
 	        storyControl.setPriority(stories.stories.get(i).priority);
 	        // add pane to Hbox
-	        backLog.getChildren().add(newStory);
+	        switch(stories.stories.get(i).stage) {
+         	case "To Do":
+         		toDo.getChildren().add(newStory);
+         		break;
+         	case "In Progress":
+         		inProgress.getChildren().add(newStory);
+         		break;
+         	case "Complete":
+         		complete.getChildren().add(newStory);
+         		break;
+         	default: //backlog
+         		backLog.getChildren().add(newStory);
+         }
 	    }
 	}
     
@@ -472,6 +500,7 @@ public class ScrumController implements Initializable  {
 	    
 	    
 	}
+	
 	@FXML
  	protected void backLogDragOver(DragEvent event) {
  		 if (event.getGestureSource() != backLog && event.getDragboard().hasString()) {
@@ -479,6 +508,7 @@ public class ScrumController implements Initializable  {
  		 }
  		 event.consume();
  	}
+	
  	@FXML
  	protected void backLogDragDropped(DragEvent event) {
  		System.out.println("Drag dropped");
@@ -573,6 +603,19 @@ public class ScrumController implements Initializable  {
  	    // Remove child from original pane
  	    //toDo.getChildren().
  	}
+ 	
+ 	@FXML
+ 	protected void trashPaneDragOver(DragEvent event) {
+		 if (event.getGestureSource() != backLog && event.getDragboard().hasString()) {
+		        event.acceptTransferModes(TransferMode.ANY);
+		 }
+		 event.consume();
+ 	}
+ 	
+ 	@FXML
+ 	protected void trashPaneDragDropped(DragEvent event) {
+ 		
+ 	}
 	
 	
 }
@@ -601,7 +644,15 @@ class TranscriptCheck implements Runnable {
 				e.printStackTrace();
 			}
     		System.out.println("New Story pushed at loginConroller, size is now: " + stories.stories.size());
-    	  	stories = gateway.getStories();
+    	  	try {
+				stories = gateway.getStories();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     	  	
           } else {
               try {
