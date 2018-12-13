@@ -22,7 +22,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 
 public class storyController {
-	
 	@FXML
 	private Pane storyPane;
 	@FXML
@@ -32,34 +31,30 @@ public class storyController {
 	@FXML
 	private Label priority;
 	
-	public UserStory thisUserStory;
-	
 	@FXML
 	private ChoiceBox<String> choiceStage;
 	@FXML
 	private ChoiceBox<String> choicePriority;
 	
-	public void addStory(UserStory userStory) {
+	
+	public void setStory(UserStory userStory) {
 		name.setText(userStory.name);
 		description.setText(userStory.des);
 		priority.setText(userStory.priority);
-		thisUserStory = new UserStory(userStory.name, userStory.des, userStory.priority, choiceStage.getValue());
 	}
 	
 	public void setName(String string){
         name.setText(string);
-        thisUserStory.name = string;
     }
 	public void setDes(String string){
 		description.setText(string);
-		thisUserStory.des = string;
     }
 	public void setPriority(String string){
         priority.setText(string);
-        thisUserStory.priority = string;
     }
 	@FXML
 	private void openToEdit(ActionEvent event) throws IOException {
+		UserStory oldState = new UserStory(name.getText(), description.getText(), "toDo", priority.getText());
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("storyEdit.fxml"));
    	 	Parent root = loader.load();
         Stage stage = new Stage ();
@@ -69,15 +64,17 @@ public class storyController {
         stage.setTitle("Edit Story");
         //send information to new window
         storyEditController storyEditController = loader.<storyEditController>getController();
-        storyEditController.initData(thisUserStory);
+        storyEditController.initData(oldState);
         stage.showAndWait();
         UserStory updatedUser = storyEditController.getUpdatedStory();
         //edit updated story information
-        
-        //open up parent ScrumController
-        
-        //run update function
-        
+        System.out.println(updatedUser.name);
+        //update values in story controller
+        setStory(updatedUser);
+        //update values in Scrum Controller
+        FXMLLoader parent = new FXMLLoader(getClass().getResource("ScrumBoard.fxml"));
+        ScrumController scrumController = parent.<ScrumController>getController();
+        scrumController.updateStoryBook(oldState, updatedUser);
         
 	}
 	@FXML

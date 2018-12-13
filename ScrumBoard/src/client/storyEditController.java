@@ -41,11 +41,12 @@ public class storyEditController implements Initializable{
 	public Button saveButton;
 	@FXML
 	public Button deleteButton;
+	private String stageSet;
 	
 	@FXML
 	private void saveandUpdate(){
 		Stage stage = (Stage)saveButton.getScene().getWindow();
-		updatedVersion = new UserStory(name.getText(), description.getText(), choicePriority.getValue(), "Low");
+		updatedVersion = new UserStory(name.getText(), description.getText(), stageSet, choicePriority.getValue());
         stage.close();
 	}
 	@FXML
@@ -55,7 +56,8 @@ public class storyEditController implements Initializable{
 	void initData(UserStory userStory) {
 	    name.setText(userStory.name);
 	    description.setText(userStory.des);
-	    priority.setText(userStory.priority);
+	    choicePriority.setValue(userStory.priority);
+	    stageSet = userStory.stage;
 	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

@@ -129,7 +129,7 @@ public class ScrumController implements Initializable  {
          FXMLLoader loader2 = new  FXMLLoader(getClass().getResource("story.fxml"));
          Pane newStory = loader2.load();
          storyController storyControl = loader2.getController();
-         storyControl.addStory(newUser);
+         storyControl.setStory(newUser);
          // Figure Out What Pane to Add to
          System.out.println(newUser.stage);
          switch(newUser.stage) {
@@ -164,10 +164,17 @@ public class ScrumController implements Initializable  {
 		 event.consume();
 	}
 	
-	public void updateStoryBook(UserStory updatedStory) {
+	public void updateStoryBook(UserStory oldStory, UserStory updatedStory) {
 		//find updated story in array
-		
-		//replace information
+		System.out.println("FunctionCalled");
+		for (UserStory node: this.stories.stories) {
+			if(oldStory.name.equals(node.name) && oldStory.des.equals(node.des)) {
+				System.out.println("Changes Made");
+				node.name = updatedStory.name;
+				node.des = updatedStory.des;
+				node.priority = updatedStory.priority;
+			}
+		}
 		
 	}
 	
@@ -243,7 +250,7 @@ public class ScrumController implements Initializable  {
  	        
  	        UserStory newUserTemp = new UserStory(map2.get("name"), map2.get("description"), "toDo", map2.get("priorityLevel"));
  
- 	        storyControl.addStory(newUserTemp);
+ 	        storyControl.setStory(newUserTemp);
  	        
  	        toDo.getChildren().add(newStoryTemp);
  	        this.stories.addStoryWhole(newUserTemp);
@@ -344,7 +351,7 @@ public class ScrumController implements Initializable  {
  	        
  	        UserStory newUserTemp = new UserStory(map2.get("name"), map2.get("description"), "inProgress", map2.get("priorityLevel"));
  
- 	        storyControl.addStory(newUserTemp);
+ 	        storyControl.setStory(newUserTemp);
  	        
  	        inProgress.getChildren().add(newStoryTemp);
  	        this.stories.addStoryWhole(newUserTemp);
@@ -445,7 +452,7 @@ public class ScrumController implements Initializable  {
  	        
  	        UserStory newUserTemp = new UserStory(map2.get("name"), map2.get("description"), "complete", map2.get("priorityLevel"));
  
- 	        storyControl.addStory(newUserTemp);
+ 	        storyControl.setStory(newUserTemp);
  	        
  	        complete.getChildren().add(newStoryTemp);
  	        this.stories.addStoryWhole(newUserTemp);
@@ -545,7 +552,7 @@ public class ScrumController implements Initializable  {
  	        
  	        UserStory newUserTemp = new UserStory(map2.get("name"), map2.get("description"), "backLog", map2.get("priorityLevel"));
  
- 	        storyControl.addStory(newUserTemp);
+ 	        storyControl.setStory(newUserTemp);
  	        
  	        backLog.getChildren().add(newStoryTemp);
  	        this.stories.addStoryWhole(newUserTemp);
@@ -566,14 +573,6 @@ public class ScrumController implements Initializable  {
  	    // Remove child from original pane
  	    //toDo.getChildren().
  	}
-
-	public void openToEdit() {
-		//put info into edit pane on Scrum Board, pre populate, allow user to edit
-		
-		//need a "update button" to hit if you want information
-		
-		//update must be reflected in sories array and on board
-	}
 	
 	
 }
