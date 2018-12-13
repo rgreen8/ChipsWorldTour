@@ -27,7 +27,7 @@ import javafx.stage.StageStyle;
 public class storyEditController implements Initializable{
 	
 	@FXML
-	private TextField name;
+	private Label name;
 	@FXML
 	private TextField description;
 	@FXML

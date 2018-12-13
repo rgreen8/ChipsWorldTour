@@ -11,11 +11,11 @@
       <Button fx:id="saveButton" layoutX="64.0" layoutY="94.0" mnemonicParsing="false" onAction="#saveandUpdate" prefHeight="27.0" prefWidth="56.0" text="Save" />
       <Button fx:id="deleteButton" layoutX="2.0" layoutY="94.0" mnemonicParsing="false" onAction="#deleteStory" prefHeight="27.0" prefWidth="62.0" text="Delete" />
       <ChoiceBox fx:id="choicePriority" layoutX="121.0" layoutY="34.0" prefHeight="27.0" prefWidth="76.0" />
-      <TextField fx:id="name" layoutX="9.0" layoutY="7.0" prefHeight="27.0" prefWidth="102.0">
+      <Label fx:id="name" layoutX="9.0" layoutY="7.0" prefHeight="27.0" prefWidth="102.0">
          <font>
             <Font size="10.0" />
          </font>
-      </TextField>
+      </Label>
       <TextField fx:id="description" layoutX="9.0" layoutY="41.0" prefHeight="52.0" prefWidth="102.0">
          <font>
             <Font size="10.0" />
