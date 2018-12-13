@@ -19,6 +19,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -31,8 +33,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class ScrumController implements Initializable  {
+	private ChatGateway gateway;
     public StoryBook stories = new StoryBook();;
-    public ChatGateway gateway;
    public  boolean changemade = false;
     @FXML
     private TextField comment;
@@ -73,7 +75,7 @@ public class ScrumController implements Initializable  {
 		}
         // Start the transcript check thread
         new Thread(new TranscriptCheck(gateway,stories,changemade)).start();
-        System.out.println("New number of stories  at scrum Control is: " + stories.stories.size());
+        System.out.println("New number of stories is: " + stories.stories.size());
     } 
     
     private void update(StoryBook stories) throws IOException {
@@ -146,9 +148,12 @@ public class ScrumController implements Initializable  {
          		break;
          }
          // add to stories
-         this.gateway.addStoryToSever(newUser);
-         System.out.println("new user added in scrum controller");
-        
+         if(this.stories != null) {
+        	 this.stories.addStoryWhole(newUser);
+        	 System.out.println("new user added");
+        	 this.gateway.updateStories(stories);
+         }else
+         	{System.out.println("not good");}
     }
   
 	public void loadStorytoBackLog(ActionEvent event) throws IOException  {
@@ -182,6 +187,45 @@ public class ScrumController implements Initializable  {
 	    	Map<String, String> map2 = new HashMap<String, String>();
 	    	for (Map.Entry<Object, Object> e : props.entrySet()) {
 	    	    map2.put((String)e.getKey(), (String)e.getValue());
+	    	}
+	    	
+	    	switch (map2.get("originPane")) {
+	    		case "backLog":
+	    			int matchingDescriptionFromBackLogIterator = 0;
+	    			for (Node node : this.backLog.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.backLog.getChildren().remove(matchingDescriptionFromBackLogIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromBackLogIterator++;
+	    			}
+	    			break;
+	    		case "complete":
+	    			int matchingDescriptionFromCompleteIterator = 0;
+	    			for (Node node : this.complete.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.complete.getChildren().remove(matchingDescriptionFromCompleteIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromCompleteIterator++;
+	    			}
+	    			break;
+	    		case "inProgress":
+	    			int matchingDescriptionFromInProgressIterator = 0;
+	    			for (Node node : this.inProgress.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.inProgress.getChildren().remove(matchingDescriptionFromInProgressIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromInProgressIterator++;
+	    			}
+	    			break;
 	    	}
 	    	
 	    	// Place onto toDo Pane
@@ -247,7 +291,46 @@ public class ScrumController implements Initializable  {
 	    	    map2.put((String)e.getKey(), (String)e.getValue());
 	    	}
 	    	
-	    	// Place onto toDo Pane
+	    	switch (map2.get("originPane")) {
+	    		case "backLog":
+	    			int matchingDescriptionFromBackLogIterator = 0;
+	    			for (Node node : this.backLog.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.backLog.getChildren().remove(matchingDescriptionFromBackLogIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromBackLogIterator++;
+	    			}
+	    			break;
+	    		case "toDo":
+	    			int matchingDescriptionFromToDoIterator = 0;
+	    			for (Node node : this.toDo.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.toDo.getChildren().remove(matchingDescriptionFromToDoIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromToDoIterator++;
+	    			}
+	    			break;
+	    		case "complete":
+	    			int matchingDescriptionFromCompleteIterator = 0;
+	    			for (Node node : this.complete.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.complete.getChildren().remove(matchingDescriptionFromCompleteIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromCompleteIterator++;
+	    			}
+	    			break;
+	    	}
+	    	
+	    	// Place onto inProgress Pane
 	        FXMLLoader loader2Temp = new FXMLLoader(getClass().getResource("story.fxml"));
 	        Pane newStoryTemp = null;
 	        try {
@@ -310,7 +393,46 @@ public class ScrumController implements Initializable  {
 	    	    map2.put((String)e.getKey(), (String)e.getValue());
 	    	}
 	    	
-	    	// Place onto toDo Pane
+	    	switch (map2.get("originPane")) {
+	    		case "backLog":
+	    			int matchingDescriptionFromBackLogIterator = 0;
+	    			for (Node node : this.backLog.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.backLog.getChildren().remove(matchingDescriptionFromBackLogIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromBackLogIterator++;
+	    			}
+	    			break;
+	    		case "toDo":
+	    			int matchingDescriptionFromToDoIterator = 0;
+	    			for (Node node : this.toDo.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.toDo.getChildren().remove(matchingDescriptionFromToDoIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromToDoIterator++;
+	    			}
+	    			break;
+	    		case "inProgress":
+	    			int matchingDescriptionFromInProgressIterator = 0;
+	    			for (Node node : this.inProgress.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.inProgress.getChildren().remove(matchingDescriptionFromInProgressIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromInProgressIterator++;
+	    			}
+	    			break;
+	    	}
+	    	
+	    	// Place onto complete Pane
 	        FXMLLoader loader2Temp = new FXMLLoader(getClass().getResource("story.fxml"));
 	        Pane newStoryTemp = null;
 	        try {
@@ -342,7 +464,7 @@ public class ScrumController implements Initializable  {
 	    event.consume();
 	    
 	    // Remove child from original pane
-	    //toDo.getChildren().
+	    
 	}
 	
 	@FXML
@@ -373,7 +495,46 @@ public class ScrumController implements Initializable  {
 	    	    map2.put((String)e.getKey(), (String)e.getValue());
 	    	}
 	    	
-	    	// Place onto toDo Pane
+	    	switch (map2.get("originPane")) {
+	    		case "complete":
+	    			int matchingDescriptionFromCompleteIterator = 0;
+	    			for (Node node : this.complete.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.complete.getChildren().remove(matchingDescriptionFromCompleteIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromCompleteIterator++;
+	    			}
+	    			break;
+	    		case "toDo":
+	    			int matchingDescriptionFromToDoIterator = 0;
+	    			for (Node node : this.toDo.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.toDo.getChildren().remove(matchingDescriptionFromToDoIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromToDoIterator++;
+	    			}
+	    			break;
+	    		case "inProgress":
+	    			int matchingDescriptionFromInProgressIterator = 0;
+	    			for (Node node : this.inProgress.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.inProgress.getChildren().remove(matchingDescriptionFromInProgressIterator);
+	    					break;
+	    				}
+	    				matchingDescriptionFromInProgressIterator++;
+	    			}
+	    			break;
+	    	}
+	    	
+	    	// Place onto backLog Pane
 	        FXMLLoader loader2Temp = new FXMLLoader(getClass().getResource("story.fxml"));
 	        Pane newStoryTemp = null;
 	        try {
