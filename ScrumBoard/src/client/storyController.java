@@ -3,7 +3,6 @@ package client;
 import java.util.HashMap;
 
 import application.UserStory;
-import client.StoryDataHelper;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
