@@ -74,8 +74,6 @@ public class storyController {
         System.out.println(oldState.name);
         //update values in Scrum Controller
         
-        scrumController.updateStoryBook(oldState, updatedUser);
-        
 	}
 	@FXML
 	protected void storyOnDragDetected(MouseEvent event) {
