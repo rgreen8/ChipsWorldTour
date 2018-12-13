@@ -39,8 +39,6 @@ public class storyEditController implements Initializable{
 	private UserStory updatedVersion;
 	@FXML
 	public Button saveButton;
-	@FXML
-	public Button deleteButton;
 	private String stageSet;
 	
 	@FXML
@@ -48,10 +46,6 @@ public class storyEditController implements Initializable{
 		Stage stage = (Stage)saveButton.getScene().getWindow();
 		updatedVersion = new UserStory(name.getText(), description.getText(), stageSet, choicePriority.getValue());
         stage.close();
-	}
-	@FXML
-	private void deleteStory(){
-		
 	}
 	void initData(UserStory userStory) {
 	    name.setText(userStory.name);
