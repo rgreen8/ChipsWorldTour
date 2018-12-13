@@ -155,13 +155,22 @@ public class ScrumController implements Initializable  {
 	 	  Pane newLoadedPane =  FXMLLoader.load(getClass().getResource("story.fxml"));
 	 	  backLog.getChildren().add(newLoadedPane);
 	 	}
+	
 	@FXML
- 	protected void toDoOnDragOver(DragEvent event) {
- 		 if (event.getGestureSource() != toDo && event.getDragboard().hasString()) {
- 		        event.acceptTransferModes(TransferMode.ANY);
- 		 }
- 		 event.consume();
- 	}
+	protected void toDoOnDragOver(DragEvent event) {
+		 if (event.getGestureSource() != toDo && event.getDragboard().hasString()) {
+		        event.acceptTransferModes(TransferMode.ANY);
+		 }
+		 event.consume();
+	}
+	
+	public void updateStoryBook(UserStory updatedStory) {
+		//find updated story in array
+		
+		//replace information
+		
+	}
+	
 	@FXML
  	protected void toDoOnDragDropped(DragEvent event) {
  		System.out.println("Drag dropped");
