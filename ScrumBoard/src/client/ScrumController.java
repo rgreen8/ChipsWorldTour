@@ -175,6 +175,12 @@ public class ScrumController implements Initializable  {
 				node.priority = updatedStory.priority;
 			}
 		}
+		try {
+			this.gateway.addStoriesToServer(stories);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	

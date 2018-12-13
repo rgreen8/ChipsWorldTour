@@ -54,6 +54,12 @@ public class ChatGateway implements chat.ChatConstants {
     	System.out.println("Add story to server called: " + stories.stories.size());
 		this.updateStories();
     }
+    public void addStoriesToServer(StoryBook storyB) throws IOException {
+    	System.out.println(storyB.stories.get(0).name);
+    	this.stories = storyB;
+		System.out.println("Add story to server called: " + stories.stories.size());
+		this.updateStories();
+    }
     public void updateStories() throws IOException {
     	this.outputToServer.writeObject(stories);
     	System.out.println("Updating the gateway, size there is: " + this.stories.stories.size());
