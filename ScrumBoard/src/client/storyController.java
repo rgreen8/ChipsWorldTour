@@ -31,6 +31,9 @@ public class storyController {
 	private Label description;
 	@FXML
 	private Label priority;
+	
+	public UserStory thisUserStory;
+	
 	@FXML
 	private ChoiceBox<String> choiceStage;
 	@FXML
@@ -40,16 +43,20 @@ public class storyController {
 		name.setText(userStory.name);
 		description.setText(userStory.des);
 		priority.setText(userStory.priority);
+		thisUserStory = new UserStory(userStory.name, userStory.des, userStory.priority, choiceStage.getValue());
 	}
 	
 	public void setName(String string){
         name.setText(string);
+        thisUserStory.name = string;
     }
 	public void setDes(String string){
 		description.setText(string);
+		thisUserStory.des = string;
     }
 	public void setPriority(String string){
         priority.setText(string);
+        thisUserStory.priority = string;
     }
 	@FXML
 	private void openToEdit(ActionEvent event) throws IOException {
@@ -59,11 +66,19 @@ public class storyController {
         stage.setScene(new Scene(root));
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.UNDECORATED);
-        stage.setTitle("New Story");
+        stage.setTitle("Edit Story");
+        //send information to new window
+        storyEditController storyEditController = loader.<storyEditController>getController();
+        storyEditController.initData(thisUserStory);
         stage.showAndWait();
-        storyEditController storyEditController = loader.getController();
-        UserStory newUser = storyEditController.getUpdatedStory();
-        //added story is now in the main controller 
+        UserStory updatedUser = storyEditController.getUpdatedStory();
+        //edit updated story information
+        
+        //open up parent ScrumController
+        
+        //run update function
+        
+        
 	}
 	@FXML
 	protected void storyOnDragDetected(MouseEvent event) {

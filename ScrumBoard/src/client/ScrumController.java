@@ -169,6 +169,13 @@ public class ScrumController implements Initializable  {
 		 event.consume();
 	}
 	
+	public void updateStoryBook(UserStory updatedStory) {
+		//find updated story in array
+		
+		//replace information
+		
+	}
+	
 	@FXML
 	protected void toDoOnDragDropped(DragEvent event) {
 		System.out.println("Drag dropped");
