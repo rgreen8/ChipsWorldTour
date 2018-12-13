@@ -53,7 +53,7 @@ class TranscriptCheck implements Runnable, chat.ChatConstants {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    		System.out.println("New Story pushed, size is now: " + stories.stories.size());
+    		System.out.println("New Story pushed at loginConroller, size is now: " + stories.stories.size());
     	  	stories = gateway.getStories();
     	  	
           } else {

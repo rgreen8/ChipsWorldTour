@@ -27,9 +27,9 @@ public class ChatGateway implements chat.ChatConstants {
             Socket socket = new Socket("localhost", 8000);
             System.out.println("socket made");
             // Create an output stream to send data out
-            outputToServer = new ObjectOutputStream(socket.getOutputStream());
+            this.outputToServer = new ObjectOutputStream(socket.getOutputStream());
             // Create an input stream to read data from the server
-            inputFromServer = new ObjectInputStream(socket.getInputStream());
+            this.inputFromServer = new ObjectInputStream(socket.getInputStream());
 
             // grab data from server
             grabStories();
@@ -48,13 +48,12 @@ public class ChatGateway implements chat.ChatConstants {
     }
     public void updateStories(StoryBook N_stories) throws IOException {
     	this.stories = N_stories;
-    	stories.storyAdd("Ryan", "2", "2", "trial 2");
-    	outputToServer.writeObject(stories);
-    	System.out.println("Updating the gateway, size is: " + this.stories.stories.size());
+    	this.outputToServer.writeObject(stories);
+    	System.out.println("Updating the gateway, size there is: " + this.stories.stories.size());
     }
     public void grabStories() throws ClassNotFoundException, IOException {
     	System.out.println("Incoming Info from server 1 ...");
-        StoryBook SB_In = (StoryBook) inputFromServer.readObject();
+        StoryBook SB_In = (StoryBook) this.inputFromServer.readObject();
         stories = SB_In;
         System.out.println("Incoming Info from server 2 ...");
         System.out.println("SB_In Size " + SB_In.stories.size());
