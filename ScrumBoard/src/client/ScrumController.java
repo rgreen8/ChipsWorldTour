@@ -562,6 +562,20 @@ public class ScrumController implements Initializable  {
 	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
 	    				if (map2.get("description").equals(matchingDescription)) {
 	    					this.inProgress.getChildren().remove(matchingDescriptionFromInProgressIterator);
+	    					// Iterate through stories data element and delete story
+	    					int storyBoardChangeIterator = 0;
+	    					for (UserStory tempUserStory : this.stories.stories) {
+	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    							this.stories.stories.get(storyBoardChangeIterator).stage = "backLog";
+	    							try {
+										this.gateway.addStoriesToServer(this.stories);
+									} catch (IOException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+	    						}
+	    						storyBoardChangeIterator++;
+	    					}
 	    					break;
 	    				}
 	    				matchingDescriptionFromInProgressIterator++;
