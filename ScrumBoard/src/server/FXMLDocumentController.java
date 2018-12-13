@@ -31,9 +31,14 @@ public class FXMLDocumentController implements Initializable {
     
     private int clientNo = 0;
     
-    private StoryBook stories = new StoryBook();;
+    public static StoryBook stories = new StoryBook();
     
     private ServerSocket serverSocket;
+    
+    public static void getStoryUpdates(StoryBook Update) {
+    	stories = Update;
+    	System.out.println("Received stories at DocController is: " + stories.stories.size());
+    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -42,7 +47,7 @@ public class FXMLDocumentController implements Initializable {
       try {
         // Create a server socket
         serverSocket = new ServerSocket(8000);
-        stories.storyAdd("Connor", "1", "2", "trial");
+        //stories.storyAdd("Connor", "1", "2", "trial");
         System.out.println("socket made");
         while (true) {
         	System.out.println("listing....");
@@ -77,19 +82,22 @@ class HandleAClient implements Runnable, chat.ChatConstants {
       try {
         // Create reading and writing streams
     	 ObjectOutputStream outputToClient = new ObjectOutputStream(socket.getOutputStream());
+    	 ObjectInputStream inputFromClient = new ObjectInputStream(socket.getInputStream());
          System.out.println("Streams up");
         // Continuously serve the client
         while (true) {
         	// try to send an output 
-            if(stories != null){System.out.println("Story Added");}
+        	System.out.println("Received stories at server part 1 is: " + stories.stories.size());
             outputToClient.writeObject(stories);
             outputToClient.flush();
 	        // Receive request code from the client
-            ObjectInputStream inputFromClient = new ObjectInputStream(socket.getInputStream());
 	        StoryBook SB_In = (StoryBook) inputFromClient.readObject();
 	        if(SB_In != null){
-	        	System.out.println("Received elements size is: " + SB_In.stories.size());
+	        	System.out.println("Received elements at server is: " + SB_In.stories.size());
 	        }
+	       this.stories = SB_In;
+	       System.out.println("Received stories at server part 2 is: " + stories.stories.size());
+	       FXMLDocumentController.getStoryUpdates(stories);
         }
       }
       catch(IOException ex) {
