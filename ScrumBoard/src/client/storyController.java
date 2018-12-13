@@ -25,14 +25,13 @@ public class storyController {
 	@FXML
 	private Pane storyPane;
 	@FXML
-	private Label name;
+	public Label name;
 	@FXML
-	private Label description;
+	public Label description;
 	@FXML
-	private Label priority;
+	public Label priority;
+	public String stage;
 	
-	@FXML
-	private ChoiceBox<String> choiceStage;
 	@FXML
 	private ChoiceBox<String> choicePriority;
 	
@@ -41,6 +40,7 @@ public class storyController {
 		name.setText(userStory.name);
 		description.setText(userStory.des);
 		priority.setText(userStory.priority);
+		stage = userStory.stage;
 	}
 	
 	public void setName(String string){

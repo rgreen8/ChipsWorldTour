@@ -27,14 +27,17 @@ import javafx.scene.control.Labeled;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.io.StringReader;
 
 public class ScrumController implements Initializable  {
-    public StoryBook stories = new StoryBook();;
+    public StoryBook stories = new StoryBook();
     public ChatGateway gateway;
+    public ArrayList<storyController> controlList = new ArrayList<storyController>();
     public  boolean changemade = false;
     @FXML
     private TextField comment;
@@ -180,6 +183,7 @@ public class ScrumController implements Initializable  {
          }
          // add to stories
          this.gateway.addStoryToSever(newUser);
+         this.controlList.add(storyControl);
          System.out.println("new user added in scrum controller");
         
     }
@@ -197,20 +201,7 @@ public class ScrumController implements Initializable  {
 		 event.consume();
 	}
 	
-	public void updateStoryBook(UserStory oldStory, UserStory updatedStory) {
-		//find updated story in array
-		System.out.println("FunctionCalled");
-		for (UserStory node: this.stories.stories) {
-			if(oldStory.name.equals(node.name) && oldStory.des.equals(node.des)) {
-				System.out.println("Changes Made");
-				node.name = updatedStory.name;
-				node.des = updatedStory.des;
-				node.priority = updatedStory.priority;
-			}
-		}
-		
-	}
-	
+
 	@FXML
  	protected void toDoOnDragDropped(DragEvent event) {
  		System.out.println("Drag dropped");
@@ -236,13 +227,13 @@ public class ScrumController implements Initializable  {
 	    			int matchingDescriptionFromBackLogIterator = 0;
 	    			for (Node node : this.backLog.getChildren()) {
 	    				Pane temporaryPane = (Pane) node;
-	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
-	    				if (map2.get("description").equals(matchingDescription)) {
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(0)).getText();
+	    				if (map2.get("name").equals(matchingDescription)) {
 	    					this.backLog.getChildren().remove(matchingDescriptionFromBackLogIterator);
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "To Do";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -262,13 +253,13 @@ public class ScrumController implements Initializable  {
 	    			int matchingDescriptionFromCompleteIterator = 0;
 	    			for (Node node : this.complete.getChildren()) {
 	    				Pane temporaryPane = (Pane) node;
-	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
-	    				if (map2.get("description").equals(matchingDescription)) {
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(0)).getText();
+	    				if (map2.get("name").equals(matchingDescription)) {
 	    					this.complete.getChildren().remove(matchingDescriptionFromCompleteIterator);
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "To Do";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -288,13 +279,13 @@ public class ScrumController implements Initializable  {
 	    			int matchingDescriptionFromInProgressIterator = 0;
 	    			for (Node node : this.inProgress.getChildren()) {
 	    				Pane temporaryPane = (Pane) node;
-	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
-	    				if (map2.get("description").equals(matchingDescription)) {
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(0)).getText();
+	    				if (map2.get("name").equals(matchingDescription)) {
 	    					this.inProgress.getChildren().remove(matchingDescriptionFromInProgressIterator);
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "To Do";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -379,13 +370,13 @@ public class ScrumController implements Initializable  {
 	    			int matchingDescriptionFromBackLogIterator = 0;
 	    			for (Node node : this.backLog.getChildren()) {
 	    				Pane temporaryPane = (Pane) node;
-	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
-	    				if (map2.get("description").equals(matchingDescription)) {
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(0)).getText();
+	    				if (map2.get("name").equals(matchingDescription)) {
 	    					this.backLog.getChildren().remove(matchingDescriptionFromBackLogIterator);
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "In Progress";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -405,13 +396,13 @@ public class ScrumController implements Initializable  {
 	    			int matchingDescriptionFromToDoIterator = 0;
 	    			for (Node node : this.toDo.getChildren()) {
 	    				Pane temporaryPane = (Pane) node;
-	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
-	    				if (map2.get("description").equals(matchingDescription)) {
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(0)).getText();
+	    				if (map2.get("name").equals(matchingDescription)) {
 	    					this.toDo.getChildren().remove(matchingDescriptionFromToDoIterator);
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "In Progress";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -431,13 +422,13 @@ public class ScrumController implements Initializable  {
 	    			int matchingDescriptionFromCompleteIterator = 0;
 	    			for (Node node : this.complete.getChildren()) {
 	    				Pane temporaryPane = (Pane) node;
-	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
-	    				if (map2.get("description").equals(matchingDescription)) {
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(0)).getText();
+	    				if (map2.get("name").equals(matchingDescription)) {
 	    					this.complete.getChildren().remove(matchingDescriptionFromCompleteIterator);
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "In Progress";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -522,13 +513,13 @@ public class ScrumController implements Initializable  {
 	    			int matchingDescriptionFromBackLogIterator = 0;
 	    			for (Node node : this.backLog.getChildren()) {
 	    				Pane temporaryPane = (Pane) node;
-	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
-	    				if (map2.get("description").equals(matchingDescription)) {
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(0)).getText();
+	    				if (map2.get("name").equals(matchingDescription)) {
 	    					this.backLog.getChildren().remove(matchingDescriptionFromBackLogIterator);
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "Complete";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -548,13 +539,13 @@ public class ScrumController implements Initializable  {
 	    			int matchingDescriptionFromToDoIterator = 0;
 	    			for (Node node : this.toDo.getChildren()) {
 	    				Pane temporaryPane = (Pane) node;
-	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
-	    				if (map2.get("description").equals(matchingDescription)) {
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(0)).getText();
+	    				if (map2.get("name").equals(matchingDescription)) {
 	    					this.toDo.getChildren().remove(matchingDescriptionFromToDoIterator);
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "Complete";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -574,13 +565,13 @@ public class ScrumController implements Initializable  {
 	    			int matchingDescriptionFromInProgressIterator = 0;
 	    			for (Node node : this.inProgress.getChildren()) {
 	    				Pane temporaryPane = (Pane) node;
-	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
-	    				if (map2.get("description").equals(matchingDescription)) {
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(0)).getText();
+	    				if (map2.get("name").equals(matchingDescription)) {
 	    					this.inProgress.getChildren().remove(matchingDescriptionFromInProgressIterator);
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "Complete";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -666,13 +657,13 @@ public class ScrumController implements Initializable  {
 	    			int matchingDescriptionFromCompleteIterator = 0;
 	    			for (Node node : this.complete.getChildren()) {
 	    				Pane temporaryPane = (Pane) node;
-	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
-	    				if (map2.get("description").equals(matchingDescription)) {
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(0)).getText();
+	    				if (map2.get("name").equals(matchingDescription)) {
 	    					this.complete.getChildren().remove(matchingDescriptionFromCompleteIterator);
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "backLog";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -692,13 +683,13 @@ public class ScrumController implements Initializable  {
 	    			int matchingDescriptionFromToDoIterator = 0;
 	    			for (Node node : this.toDo.getChildren()) {
 	    				Pane temporaryPane = (Pane) node;
-	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
-	    				if (map2.get("description").equals(matchingDescription)) {
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(0)).getText();
+	    				if (map2.get("name").equals(matchingDescription)) {
 	    					this.toDo.getChildren().remove(matchingDescriptionFromToDoIterator);
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "backLog";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -718,13 +709,13 @@ public class ScrumController implements Initializable  {
 	    			int matchingDescriptionFromInProgressIterator = 0;
 	    			for (Node node : this.inProgress.getChildren()) {
 	    				Pane temporaryPane = (Pane) node;
-	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
-	    				if (map2.get("description").equals(matchingDescription)) {
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(0)).getText();
+	    				if (map2.get("name").equals(matchingDescription)) {
 	    					this.inProgress.getChildren().remove(matchingDescriptionFromInProgressIterator);
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "backLog";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -811,13 +802,13 @@ public class ScrumController implements Initializable  {
 	    			int matchingDescriptionFromCompleteIterator = 0;
 	    			for (Node node : this.complete.getChildren()) {
 	    				Pane temporaryPane = (Pane) node;
-	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
-	    				if (map2.get("description").equals(matchingDescription)) {
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(0)).getText();
+	    				if (map2.get("name").equals(matchingDescription)) {
 	    					this.complete.getChildren().remove(matchingDescriptionFromCompleteIterator);
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardDeleteIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.remove(storyBoardDeleteIterator);
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -837,13 +828,13 @@ public class ScrumController implements Initializable  {
 	    			int matchingDescriptionFromToDoIterator = 0;
 	    			for (Node node : this.toDo.getChildren()) {
 	    				Pane temporaryPane = (Pane) node;
-	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
-	    				if (map2.get("description").equals(matchingDescription)) {
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(0)).getText();
+	    				if (map2.get("name").equals(matchingDescription)) {
 	    					this.toDo.getChildren().remove(matchingDescriptionFromToDoIterator);
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardDeleteIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.remove(storyBoardDeleteIterator);
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -863,13 +854,13 @@ public class ScrumController implements Initializable  {
 	    			int matchingDescriptionFromInProgressIterator = 0;
 	    			for (Node node : this.inProgress.getChildren()) {
 	    				Pane temporaryPane = (Pane) node;
-	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
-	    				if (map2.get("description").equals(matchingDescription)) {
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(0)).getText();
+	    				if (map2.get("name").equals(matchingDescription)) {
 	    					this.inProgress.getChildren().remove(matchingDescriptionFromInProgressIterator);
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardDeleteIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.remove(storyBoardDeleteIterator);
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -889,13 +880,13 @@ public class ScrumController implements Initializable  {
 	    			int matchingDescriptionFromBackLogIterator = 0;
 	    			for (Node node : this.backLog.getChildren()) {
 	    				Pane temporaryPane = (Pane) node;
-	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
-	    				if (map2.get("description").equals(matchingDescription)) {
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(0)).getText();
+	    				if (map2.get("name").equals(matchingDescription)) {
 	    					this.backLog.getChildren().remove(matchingDescriptionFromBackLogIterator);
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardDeleteIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.remove(storyBoardDeleteIterator);
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
