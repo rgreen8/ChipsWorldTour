@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ScrumController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1208.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ScrumController">
    <children>
-      <Button layoutX="701.0" layoutY="365.0" mnemonicParsing="false" onAction="#toBurn" text="Burndown" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="63.0" layoutY="181.0" prefHeight="17.0" prefWidth="112.0" text="To-Do" textAlignment="CENTER" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="291.0" layoutY="178.0" prefHeight="17.0" prefWidth="112.0" text="In Progress" textAlignment="CENTER" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="517.0" layoutY="179.0" prefHeight="17.0" prefWidth="112.0" text="Completed" textAlignment="CENTER" />
@@ -26,6 +30,16 @@
       <VBox fx:id="complete" alignment="TOP_CENTER" layoutX="466.0" layoutY="201.0" onDragDropped="#completedDragDropped" onDragOver="#completedDragOver" prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: LINEN;" />
       <HBox fx:id="backLog" layoutX="6.0" layoutY="27.0" onDragDropped="#backLogDragDropped" onDragOver="#backLogDragOver" prefHeight="125.0" prefWidth="600.0" style="-fx-background-color: LIGHTPINK;" />
       <Button layoutX="528.0" mnemonicParsing="false" onAction="#createNew" text="Add Story" />
-      <Button layoutX="700.0" layoutY="414.0" mnemonicParsing="false" onAction="#refreshStories" prefHeight="27.0" prefWidth="80.0" text="Refresh" />
+      <Button layoutX="703.0" layoutY="374.0" mnemonicParsing="false" onAction="#refreshStories" prefHeight="27.0" prefWidth="80.0" text="Refresh" />
+      <LineChart layoutX="816.0" layoutY="154.0" prefHeight="293.0" prefWidth="371.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
+      <Label alignment="CENTER" layoutX="934.0" layoutY="125.0" prefHeight="27.0" prefWidth="136.0" text="Burndown Chart" />
+      <Label alignment="CENTER" layoutX="922.0" layoutY="447.0" prefHeight="27.0" prefWidth="161.0" text="Timeline to Completion" textAlignment="CENTER" />
    </children>
 </AnchorPane>

@@ -87,11 +87,16 @@ public class ScrumController implements Initializable  {
     
     @FXML
 	private void refreshStories(ActionEvent event) throws IOException, ClassNotFoundException {
-    	this.gateway.updateStories();
-    	System.out.println("New number of stories  at refresh is: " + this.gateway.stories.stories.size());
-    	this.gateway.grabStories();
-    	System.out.println("New number of stories  at refresh is: " + this.gateway.stories.stories.size());
-		update(this.gateway.stories);
+    	StoryBook Upstories = new StoryBook();
+    	try {
+			Upstories = gateway.getStories();
+			update(Upstories);
+		} catch (ClassNotFoundException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    	System.out.println("New number of stories  at refresh is: " + Upstories.stories.size());
+		
 	}
     
     private void update(StoryBook stories) throws IOException {
