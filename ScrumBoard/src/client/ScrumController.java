@@ -137,12 +137,9 @@ public class ScrumController implements Initializable  {
          		backLog.getChildren().add(newStory);
          }
          // add to stories
-         if(this.stories != null) {
-        	 this.stories.addStoryWhole(newUser);
-        	 System.out.println("new user added");
-        	 this.gateway.updateStories(stories);
-         }else
-         	{System.out.println("not good");}
+         this.gateway.addStoryToSever(newUser);
+         System.out.println("new user added in scrum controller");
+        
     }
   
 	public void loadStorytoBackLog(ActionEvent event) throws IOException  {

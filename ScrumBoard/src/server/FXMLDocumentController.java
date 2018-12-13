@@ -82,7 +82,6 @@ class HandleAClient implements Runnable, chat.ChatConstants {
         // Continuously serve the client
         while (true) {
         	// try to send an output 
-            if(stories != null){System.out.println("Story Added");}
             outputToClient.writeObject(stories);
             outputToClient.flush();
 	        // Receive request code from the client

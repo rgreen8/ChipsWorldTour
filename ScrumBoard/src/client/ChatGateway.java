@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import application.StoryBook;
+import application.UserStory;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
@@ -33,6 +34,7 @@ public class ChatGateway implements chat.ChatConstants {
 
             // grab data from server
             grabStories();
+            stories.storyAdd("Shit", "2", "3", "please push");
             // send data to the server
             updateStories(stories);
            
@@ -45,6 +47,16 @@ public class ChatGateway implements chat.ChatConstants {
     public StoryBook getStories() {
     	return stories;
     	
+    }
+    public void addStoryToSever(UserStory US) {
+    	stories.addStoryWhole(US);
+    	System.out.println("Add story to server called");
+    	try {
+			this.updateStories(stories);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     public void updateStories(StoryBook N_stories) throws IOException {
     	this.stories = N_stories;
