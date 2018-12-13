@@ -148,3 +148,37 @@ public class ScrumController implements Initializable  {
 	}
 
 }
+
+class TranscriptCheck implements Runnable {
+    private ChatGateway gateway; // Gateway to the server
+    private StoryBook stories; // Where to info pass
+    
+    /** Construct a thread */
+    public TranscriptCheck(ChatGateway gateway,StoryBook stories,boolean newchange) {
+    		this.gateway = gateway;
+    		this.stories = stories;
+    		
+    }
+
+    /** Run a thread */
+    public void run() {
+      while(true) {
+    	if(gateway != null) {
+    		// update the stories on the server
+    		try {
+				gateway.grabStories();
+			} catch (IOException | ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		System.out.println("New Story pushed at loginConroller, size is now: " + stories.stories.size());
+    	  	stories = gateway.getStories();
+    	  	
+          } else {
+              try {
+                  Thread.sleep(250);
+              } catch(InterruptedException ex) {}
+          }
+              }
+          }
+	}
