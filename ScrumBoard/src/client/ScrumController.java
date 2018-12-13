@@ -237,7 +237,7 @@ public class ScrumController implements Initializable  {
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "To Do";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -263,7 +263,7 @@ public class ScrumController implements Initializable  {
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "To Do";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -289,7 +289,7 @@ public class ScrumController implements Initializable  {
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "To Do";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -380,7 +380,7 @@ public class ScrumController implements Initializable  {
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "In Progress";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -406,7 +406,7 @@ public class ScrumController implements Initializable  {
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "In Progress";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -432,7 +432,7 @@ public class ScrumController implements Initializable  {
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "In Progress";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -523,7 +523,7 @@ public class ScrumController implements Initializable  {
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "Complete";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -549,7 +549,7 @@ public class ScrumController implements Initializable  {
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "Complete";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -575,7 +575,7 @@ public class ScrumController implements Initializable  {
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "Complete";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -667,7 +667,7 @@ public class ScrumController implements Initializable  {
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "backLog";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -693,7 +693,7 @@ public class ScrumController implements Initializable  {
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "backLog";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -719,7 +719,7 @@ public class ScrumController implements Initializable  {
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardChangeIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "backLog";
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -812,7 +812,7 @@ public class ScrumController implements Initializable  {
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardDeleteIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.remove(storyBoardDeleteIterator);
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -838,7 +838,7 @@ public class ScrumController implements Initializable  {
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardDeleteIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.remove(storyBoardDeleteIterator);
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -864,7 +864,7 @@ public class ScrumController implements Initializable  {
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardDeleteIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.remove(storyBoardDeleteIterator);
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
@@ -890,7 +890,7 @@ public class ScrumController implements Initializable  {
 	    					// Iterate through stories data element and delete story
 	    					int storyBoardDeleteIterator = 0;
 	    					for (UserStory tempUserStory : this.stories.stories) {
-	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.remove(storyBoardDeleteIterator);
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
