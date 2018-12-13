@@ -203,12 +203,6 @@ public class ScrumController implements Initializable  {
 				node.priority = updatedStory.priority;
 			}
 		}
-		try {
-			this.gateway.addStoriesToServer(stories);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 	}
 	
@@ -620,9 +614,135 @@ public class ScrumController implements Initializable  {
  	
  	@FXML
  	protected void trashPaneDragDropped(DragEvent event) {
- 		
+ 		System.out.println("Drag dropped");
+ 	    //Get the drag-board back
+ 	    Dragboard db = event.getDragboard();
+ 	    boolean success = false;
+ 	    if (db.hasString()) {
+ 	    	String storyDataString = db.getString();
+ 	    	Properties props = new Properties();
+ 	    	try {
+ 				props.load(new StringReader(storyDataString.substring(1, storyDataString.length() - 1).replace(", ", "\n")));
+ 			} catch (IOException e1) {
+ 				// TODO Auto-generated catch block
+ 				e1.printStackTrace();
+ 			}       
+ 	    	Map<String, String> map2 = new HashMap<String, String>();
+ 	    	for (Map.Entry<Object, Object> e : props.entrySet()) {
+	    	    map2.put((String)e.getKey(), (String)e.getValue());
+	    	}
+	    	
+	    	// Place onto toDo Pane
+	    	switch (map2.get("originPane")) {
+	    		case "complete":
+	    			int matchingDescriptionFromCompleteIterator = 0;
+	    			for (Node node : this.complete.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.complete.getChildren().remove(matchingDescriptionFromCompleteIterator);
+	    					// Iterate through stories data element and delete story
+	    					int storyBoardDeleteIterator = 0;
+	    					for (UserStory tempUserStory : this.stories.stories) {
+	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    							this.stories.stories.remove(storyBoardDeleteIterator);
+	    							try {
+										this.gateway.addStoriesToServer(this.stories);
+									} catch (IOException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+	    						}
+	    						storyBoardDeleteIterator++;
+	    					}
+	    					break;
+	    				}
+	    				matchingDescriptionFromCompleteIterator++;
+	    			}
+	    			break;
+	    		case "toDo":
+	    			int matchingDescriptionFromToDoIterator = 0;
+	    			for (Node node : this.toDo.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.toDo.getChildren().remove(matchingDescriptionFromToDoIterator);
+	    					// Iterate through stories data element and delete story
+	    					int storyBoardDeleteIterator = 0;
+	    					for (UserStory tempUserStory : this.stories.stories) {
+	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    							this.stories.stories.remove(storyBoardDeleteIterator);
+	    							try {
+										this.gateway.addStoriesToServer(this.stories);
+									} catch (IOException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+	    						}
+	    						storyBoardDeleteIterator++;
+	    					}
+	    					break;
+	    				}
+	    				matchingDescriptionFromToDoIterator++;
+	    			}
+	    			break;
+	    		case "inProgress":
+	    			int matchingDescriptionFromInProgressIterator = 0;
+	    			for (Node node : this.inProgress.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.inProgress.getChildren().remove(matchingDescriptionFromInProgressIterator);
+	    					// Iterate through stories data element and delete story
+	    					int storyBoardDeleteIterator = 0;
+	    					for (UserStory tempUserStory : this.stories.stories) {
+	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    							this.stories.stories.remove(storyBoardDeleteIterator);
+	    							try {
+										this.gateway.addStoriesToServer(this.stories);
+									} catch (IOException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+	    						}
+	    						storyBoardDeleteIterator++;
+	    					}
+	    					break;
+	    				}
+	    				matchingDescriptionFromInProgressIterator++;
+	    			}
+	    			break;
+	    		case "backLog":
+	    			int matchingDescriptionFromBackLogIterator = 0;
+	    			for (Node node : this.backLog.getChildren()) {
+	    				Pane temporaryPane = (Pane) node;
+	    				String matchingDescription = ((Labeled) temporaryPane.getChildren().get(1)).getText();
+	    				if (map2.get("description").equals(matchingDescription)) {
+	    					this.backLog.getChildren().remove(matchingDescriptionFromBackLogIterator);
+	    					// Iterate through stories data element and delete story
+	    					int storyBoardDeleteIterator = 0;
+	    					for (UserStory tempUserStory : this.stories.stories) {
+	    						if (tempUserStory.name.equals(map2.get("name")) && tempUserStory.des.equals(map2.get("description"))) {
+	    							this.stories.stories.remove(storyBoardDeleteIterator);
+	    							try {
+										this.gateway.addStoriesToServer(this.stories);
+									} catch (IOException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+	    						}
+	    						storyBoardDeleteIterator++;
+	    					}
+	    					break;
+	    				}
+	    				matchingDescriptionFromBackLogIterator++;
+	    			}
+	    	}
+ 	    }
+ 	    // Complete and consume the event.
+ 	    event.setDropCompleted(success);
+ 	    event.consume();
  	}
-	
 	
 }
 
