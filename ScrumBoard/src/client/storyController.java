@@ -49,7 +49,6 @@ public class storyController {
 		//update must be reflected in sories array and on board
 	}
 	*/
-	
 	@FXML
 	protected void storyOnDragDetected(MouseEvent event) {
 	    //We want the textArea to be dragged. Could also be copied.
@@ -65,6 +64,7 @@ public class storyController {
 	    storyData.put("name", tempName);
 	    storyData.put("description", tempDescription);
 	    storyData.put("priorityLevel", tempPriorityLevel);
+	    storyData.put("originPane",  storyPane.getParent().getId());
 	    
 	    // Put a string on a drag-board as an identifier
 	    ClipboardContent content = new ClipboardContent();
@@ -79,5 +79,4 @@ public class storyController {
 	protected void storyOnDragDone(DragEvent event) {
 		System.out.println("Drag done");
 	}
-	
 }
