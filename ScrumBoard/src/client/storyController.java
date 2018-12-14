@@ -68,7 +68,6 @@ public class storyController {
         stage.showAndWait();
         UserStory updatedUser = storyEditController.getUpdatedStory();
         //edit updated story information
-        System.out.println(updatedUser.name);
         //update values in story controller
         setStory(updatedUser);
         //update values in Scrum Controller

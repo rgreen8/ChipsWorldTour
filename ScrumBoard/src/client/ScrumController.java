@@ -15,6 +15,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Data;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -37,8 +40,13 @@ import java.io.StringReader;
 public class ScrumController implements Initializable  {
     public StoryBook stories = new StoryBook();
     public ChatGateway gateway;
+    @FXML
     public ArrayList<storyController> controlList = new ArrayList<storyController>();
-    public  boolean changemade = false;
+    public boolean changemade = false;
+    @FXML
+    public XYChart.Series<Number, Number> burnDownData = new XYChart.Series<Number, Number>();
+    public int sprintDays = 1;
+    public int storiesRemaining = 10;
     @FXML
     private TextField comment;
     @FXML
@@ -53,10 +61,12 @@ public class ScrumController implements Initializable  {
 	private Pane editPane;
 	@FXML
 	private Pane trashPane;
+	@FXML
+	private LineChart<Number, Number> BurnDown;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    	System.out.println("trying to make gateway");
+
 		try {
 			gateway = new ChatGateway();
 		} catch (UnknownHostException e) {
@@ -69,8 +79,7 @@ public class ScrumController implements Initializable  {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-        System.out.println("gateway made");
+	
         try {
 			stories = gateway.getStories();
 		} catch (ClassNotFoundException | IOException e1) {
@@ -83,9 +92,20 @@ public class ScrumController implements Initializable  {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+        for (int i = 0; i < 10; i++)
+        {
+        	Data<Number, Number> completed = new XYChart.Data<Number, Number>();
+     		completed.setXValue(storiesRemaining);
+     		completed.setYValue(sprintDays);
+     		burnDownData.getData().add(completed);
+        	if (i%2 == 0) {
+        		sprintDays++;
+        		storiesRemaining = storiesRemaining - i/2;
+        	}
+        }
+        BurnDown.getData().add(burnDownData);
         // Start the transcript check thread
         new Thread(new TranscriptCheck(gateway,stories,changemade)).start();
-        System.out.println("New number of stories  at scrum Control is: " + stories.stories.size());
     } 
     
     @FXML
@@ -98,7 +118,6 @@ public class ScrumController implements Initializable  {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-    	System.out.println("New number of stories  at refresh is: " + Upstories.stories.size());
 		
 	}
     
@@ -121,6 +140,14 @@ public class ScrumController implements Initializable  {
          		break;
          	case "Complete":
          		complete.getChildren().add(newStory);
+         		// Add to BurnDown
+         		/*storiesCompleted++;
+         		Data<Number, Number> completed = new XYChart.Data<Number, Number>();
+         		completed.setXValue(storiesCompleted);
+         		completed.setYValue(sprintDays);
+         		burnDownData.getData().add(completed);
+         		BurnDown.getData().addAll(burnDownData);
+         		sprintDays++;*/
          		break;
          	default: //backlog
          		backLog.getChildren().add(newStory);
@@ -149,7 +176,6 @@ public class ScrumController implements Initializable  {
     @FXML
     private void createNew(ActionEvent event) throws IOException {
     	changemade = true;
-    	System.out.println(changemade + " inside call");
     	 FXMLLoader loader = new FXMLLoader(getClass().getResource("newStory.fxml"));
     	 Parent root = loader.load();
          Stage stage = new Stage ();
@@ -184,8 +210,6 @@ public class ScrumController implements Initializable  {
          // add to stories
          this.gateway.addStoryToSever(newUser);
          this.controlList.add(storyControl);
-         System.out.println("new user added in scrum controller");
-        
     }
   
 	public void loadStorytoBackLog(ActionEvent event) throws IOException  {
@@ -261,6 +285,14 @@ public class ScrumController implements Initializable  {
 	    					for (UserStory tempUserStory : this.stories.stories) {
 	    						if (tempUserStory.name.equals(map2.get("name"))) {
 	    							this.stories.stories.get(storyBoardChangeIterator).stage = "To Do";
+	    							//Burndown
+	    							storiesRemaining--;
+	    			         		Data<Number, Number> completed = new XYChart.Data<Number, Number>();
+	    			         		completed.setXValue(storiesRemaining);
+	    			         		completed.setYValue(sprintDays);
+	    			         		burnDownData.getData().add(completed);
+	    			         		BurnDown.getData().addAll(burnDownData);
+	    			         		sprintDays++;
 	    							try {
 										this.gateway.addStoriesToServer(this.stories);
 									} catch (IOException e1) {
@@ -778,7 +810,6 @@ public class ScrumController implements Initializable  {
  	
  	@FXML
  	protected void trashPaneDragDropped(DragEvent event) {
- 		System.out.println("Drag dropped");
  	    //Get the drag-board back
  	    Dragboard db = event.getDragboard();
  	    boolean success = false;
@@ -933,7 +964,6 @@ class TranscriptCheck implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    		System.out.println("New Story pushed at loginConroller, size is now: " + stories.stories.size());
     	  	try {
 				stories = gateway.getStories();
 			} catch (ClassNotFoundException e) {

@@ -42,4 +42,9 @@ public class UserStory implements Serializable {
 		else
 			return false;
 	}
+
+	public void setName(String nameChangeTest) {
+		name = nameChangeTest;
+		
+	}
 }

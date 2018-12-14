@@ -31,9 +31,9 @@
       <HBox fx:id="backLog" layoutX="6.0" layoutY="27.0" onDragDropped="#backLogDragDropped" onDragOver="#backLogDragOver" prefHeight="125.0" prefWidth="600.0" style="-fx-background-color: LIGHTPINK;" />
       <Button layoutX="528.0" mnemonicParsing="false" onAction="#createNew" text="Add Story" />
       <Button layoutX="703.0" layoutY="374.0" mnemonicParsing="false" onAction="#refreshStories" prefHeight="27.0" prefWidth="80.0" text="Refresh" />
-      <LineChart layoutX="816.0" layoutY="154.0" prefHeight="293.0" prefWidth="371.0">
+      <LineChart fx:id="BurnDown" layoutX="816.0" layoutY="154.0" prefHeight="293.0" prefWidth="371.0">
         <xAxis>
-          <CategoryAxis side="BOTTOM" />
+          <NumberAxis side="BOTTOM" />
         </xAxis>
         <yAxis>
           <NumberAxis side="LEFT" />

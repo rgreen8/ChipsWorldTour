@@ -37,7 +37,6 @@ public class FXMLDocumentController implements Initializable {
     
     public static void getStoryUpdates(StoryBook Update) {
     	stories = Update;
-    	System.out.println("Received stories at DocController is: " + stories.stories.size());
     }
     
     @Override
@@ -47,18 +46,14 @@ public class FXMLDocumentController implements Initializable {
       try {
         // Create a server socket
         serverSocket = new ServerSocket(8000);
-        //stories.storyAdd("Connor", "1", "2", "trial");
-        System.out.println("socket made");
         while (true) {
         	System.out.println("listing....");
           // Listen for a new connection request
           Socket socket = serverSocket.accept();    
           // Increment clientNo
           clientNo++;
-          System.out.println("client up");
           // Create and start a new thread for the connection
           new Thread(new HandleAClient(socket,stories)).start();
-          System.out.println("handled");
         }
       }
       catch(IOException ex) {
@@ -83,11 +78,9 @@ class HandleAClient implements Runnable, chat.ChatConstants {
         // Create reading and writing streams
     	 ObjectOutputStream outputToClient = new ObjectOutputStream(socket.getOutputStream());
     	 ObjectInputStream inputFromClient = new ObjectInputStream(socket.getInputStream());
-         System.out.println("Streams up");
         // Continuously serve the client
         while (true) {
         	// try to send an output 
-        	System.out.println("Received stories at server part 1 is: " + stories.stories.size());
             outputToClient.writeObject(stories);
             outputToClient.flush();
 	        // Receive request code from the client
